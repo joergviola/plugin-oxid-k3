@@ -3,6 +3,7 @@
 namespace FATCHIP\K3\Core\Export;
 
 use Doctrine\DBAL\FetchMode;
+use FATCHIP\K3\Core\Export\Model\Price;
 use FATCHIP\K3\Core\Export\Model\Product;
 use OxidEsales\Eshop\Application\Model\Article;
 use OxidEsales\Eshop\Core\DatabaseProvider;
@@ -25,6 +26,13 @@ class ProductExport
     protected int $langId = 0;
 
     /**
+     * Currency
+     *
+     * @var null
+     */
+    protected string $currency = '';
+
+    /**
      * Export data
      *
      * @var array
@@ -37,13 +45,6 @@ class ProductExport
      * @var string
      */
     protected string $attributeOxid = 'k3product';
-
-    /**
-     * Returns attribute ident to identify k3 products
-     *
-     * @var string
-     */
-    protected string $attributeValue = 'y';
 
     /**
      * Set shop id
@@ -75,6 +76,27 @@ class ProductExport
     public function setLangId(int $langId)
     {
         $this->langId = $langId;
+    }
+
+    /**
+     * Set currency
+     *
+     * @param string $currency
+     * @return void
+     */
+    public function setCurrency(string $currency)
+    {
+        $this->currency = $currency;
+    }
+
+    /**
+     * Return currency
+     *
+     * @return string
+     */
+    protected function getCurrency(): string
+    {
+        return $this->currency;
     }
 
     /**
@@ -117,33 +139,47 @@ class ProductExport
         return $this->langId;
     }
 
-    public function getData()
+    /**
+     * Return export data
+     * @return array
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     */
+    public function getData(): array
     {
-        $this->data['lang'] = $this->getLangId();
-        $this->data['shopId'] = $this->getShopId();
-        $this->getExportProducts();
+        $products = $this->getExportProducts();
+        foreach ($products as $product) {
+            $this->data[] = $product->getArray();
+        }
         return $this->data;
     }
 
-    public function generateData()
-    {
-
-    }
-
-    protected function getExportProducts()
+    /**
+     * Return export products
+     *
+     * @return array
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     */
+    protected function getExportProducts(): array
     {
         $products = [];
-        $query = $this->getProductQuery();
+        $query = $this->getProductsQuery();
         $result = DatabaseProvider::getDb()->getAll($query);
         if ($result && count($result) > 0) {
             foreach ($result as $row) {
-                $products[$row[0]] = $this->getExportProduct($row[0]);
+                $products[] = $this->getExportProduct($row[0]);
             }
         }
-        #dumpVar($result);
         return $products;
     }
 
+    /**
+     * Return export product
+     *
+     * @param $id
+     * @return Product|mixed|void
+     */
     protected function getExportProduct($id)
     {
         $article = oxNew(Article::class);
@@ -156,21 +192,92 @@ class ProductExport
             $exportProduct->setCategory($category->getFieldData('oxtitle'));
             $prices = $this->getExportProductPrices($article);
             $exportProduct->setPrices($prices);
+            return $exportProduct;
         }
-        return $exportProduct;
     }
 
-    protected function getExportProductPrices($article) : array {
+    /**
+     * Return product prices
+     *
+     * @param $article
+     * @return array
+     */
+    protected function getExportProductPrices($article): array
+    {
+        $prices = [];
+        $prices[] = $this->getExportProductPrice($article);
+        $exportTPrice = $this->getExportProductTPrice($article);
+        if ($exportTPrice) {
+            $prices[] = $exportTPrice;
+        }
+        $amountPrices = $this->getExportProductAmountPrices($article);
+        if ($amountPrices && count($amountPrices) > 0) {
+            foreach ($amountPrices as $amountPrice) {
+                $prices[] = $amountPrice;
+            }
+        }
+        return $prices;
+    }
 
+    /**
+     * Return product price
+     *
+     * @param $article
+     * @return Price|mixed
+     */
+    protected function getExportProductPrice($article)
+    {
         $price = $article->getPrice();
-        $tprice = $article->getTPrice();
-        $amountPrices = $article->getAmountPriceList();
-        $price = [
-            ''
-        ];
+        $exportPrice = oxNew(Price::class);
+        $exportPrice->setPrice($price->getBruttoPrice());
+        $exportPrice->setType('fixed');
+        $exportPrice->setCurrency($this->getCurrency());
+        return $exportPrice;
+    }
 
+    /**
+     * Return strike through price
+     *
+     * @param $article
+     * @return Price|mixed|void
+     */
+    protected function getExportProductTPrice($article)
+    {
+        $price = $article->getTPrice();
+        if ($price) {
+            $exportPrice = oxNew(Price::class);
+            $exportPrice->setPrice($price->getBruttoPrice());
+            $exportPrice->setType('fixed');
+            $exportPrice->setDisplayOnly('streich');
+            $exportPrice->setCurrency($this->getCurrency());
+            return $exportPrice;
+        }
+    }
 
-
+    /**
+     * Return amount prices
+     *
+     * @param $article
+     * @return array
+     */
+    protected function getExportProductAmountPrices($article): array
+    {
+        $amountPrices = $article->loadAmountPriceInfo();
+        if ($amountPrices) {
+            $exportPrices = [];
+            foreach ($amountPrices as $amountPrice) {
+                $price = str_replace('.', '', $amountPrice->fbrutprice);
+                $price = str_replace(',', '.', $price);
+                $exportPrice = oxNew(Price::class);
+                $exportPrice->setPrice($price);
+                $exportPrice->setType('fixed');
+                $exportPrice->setFromQty($amountPrice->getFieldData('oxamount'));
+                $exportPrice->setToQty($amountPrice->getFieldData('oxamountto'));
+                $exportPrice->setCurrency($this->getCurrency());
+                $exportPrices[] = $exportPrice;
+            }
+            return $exportPrices;
+        }
         return [];
     }
 
@@ -180,10 +287,10 @@ class ProductExport
      * @return string
      * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
      */
-    protected function getProductQuery(): string
+    protected function getProductsQuery(): string
     {
         $o2aTable = $this->getOxObject2AttributeTable();
-        $query = "select count(oxid) from $o2aTable where $o2aTable.oxattrid = '{$this->attributeOxid}' and $o2aTable.oxvalue = '{$this->attributeValue}' limit 1";
+        $query = "select count(oxid) from $o2aTable where $o2aTable.oxattrid = '{$this->attributeOxid}' limit 1";
         $selectedCount = DatabaseProvider::getDb()->getOne($query);
         if ($selectedCount && $selectedCount > 0) {
             return $this->getSelectedProductsQuery();
@@ -211,7 +318,7 @@ class ProductExport
     {
         $table = $this->getArticleTable();
         $o2aTable = $this->getOxObject2AttributeTable();
-        return "select $table.oxid from $table join $o2aTable on $o2aTable.oxobjectid = $table.oxid and $o2aTable.oxattrid = '{$this->attributeOxid}' and $o2aTable.oxvalue = '{$this->attributeValue}' where $table.oxactive = 1";
+        return "select $table.oxid from $table join $o2aTable on $o2aTable.oxobjectid = $table.oxid and $o2aTable.oxattrid = '{$this->attributeOxid}' where $table.oxactive = 1";
     }
 
 }

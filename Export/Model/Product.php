@@ -126,4 +126,22 @@ class Product
     {
         $this->prices[] = $price;
     }
+
+    /**
+     * Return object as array
+     *
+     * @return array
+     */
+    public function getArray(): array
+    {
+        $prices = $this->getPrices();
+        $priceArray = [];
+        foreach ($prices as $price) {
+            $priceArray[] = $price->getArray();
+        }
+        $vars = get_object_vars($this);
+        $vars['prices'] = $priceArray;
+        return $vars;
+    }
+
 }

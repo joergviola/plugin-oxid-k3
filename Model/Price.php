@@ -218,5 +218,24 @@ class Price
         $this->type = $type;
     }
 
+    /**
+     * Return array
+     *
+     * @return array
+     */
+    public function getArray(): array
+    {
+        $vars = get_object_vars($this);
+
+        if ( $vars['fromQty'] === 0 ) {
+            $vars['fromQty'] = null;
+        }
+
+        if ( $vars['toQty'] === 0 ) {
+            $vars['toQty'] = null;
+        }
+
+        return $vars;
+    }
 
 }
