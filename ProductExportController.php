@@ -28,18 +28,22 @@ class ProductExportController extends \OxidEsales\Eshop\Application\Controller\F
      */
     protected function outputExport()
     {
-        $start = microtime(true);
-        $export = oxNew(ProductExport::class);
-        $lang = Registry::getLang()->getBaseLanguage();
-        $export->setLangId($lang);
-        $export->setShopId(Registry::getConfig()->getShopId());
-        $currency = Registry::getConfig()->getActShopCurrencyObject();
-        $export->setCurrency($currency->name);
+        try {
+            $export = oxNew(ProductExport::class);
+            $lang = Registry::getLang()->getBaseLanguage();
+            $export->setLangId($lang);
+            $export->setShopId(Registry::getConfig()->getShopId());
+            $currency = Registry::getConfig()->getActShopCurrencyObject();
+            $export->setCurrency($currency->name);
 
-        \OxidEsales\Eshop\Core\Registry::getUtils()->setHeader("Content-Type: application/json; charset=utf8");
-        echo json_encode($export->getData());
-        $end = microtime(true);
-        error_log(number_format($start-$end,5));
+            \OxidEsales\Eshop\Core\Registry::getUtils()->setHeader("Content-Type: application/json; charset=utf8");
+            echo json_encode($export->getData());
+        } catch (\Exception $e) {
+            Registry::getLogger()->error('Could not export articles', [
+                $e->getMessage(),
+                __METHOD__
+            ]);
+        }
         exit;
     }
 }

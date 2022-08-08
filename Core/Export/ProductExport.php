@@ -2,14 +2,11 @@
 
 namespace FATCHIP\K3\Core\Export;
 
-use Doctrine\DBAL\FetchMode;
 use FATCHIP\K3\Core\Export\Model\Price;
 use FATCHIP\K3\Core\Export\Model\Product;
 use OxidEsales\Eshop\Application\Model\Article;
 use OxidEsales\Eshop\Core\DatabaseProvider;
 use OxidEsales\Eshop\Core\Registry;
-use OxidEsales\EshopCommunity\Internal\Container\ContainerFactory;
-use OxidEsales\EshopCommunity\Internal\Framework\Database\QueryBuilderFactoryInterface;
 
 class ProductExport
 {
@@ -166,12 +163,62 @@ class ProductExport
         $products = [];
         $query = $this->getProductsQuery();
         $result = DatabaseProvider::getDb()->getAll($query);
-        if ($result && count($result) > 0) {
+        if ($result && is_array($result) && count($result) > 0) {
             foreach ($result as $row) {
-                $products[] = $this->getExportProduct($row[0]);
+                $id = $row[0];
+                $parentId = $row[1];
+                $varCount = $row[2];
+                if (!$parentId && $varCount > 0) {
+                    $products = $this->getExportProductVariants($products, $id);
+                } elseif (!in_array($id, array_keys($products))) {
+                    $products[$id] = $this->getExportProduct($id);
+                }
             }
         }
         return $products;
+    }
+
+    /**
+     * Return export variants
+     *
+     * @param $products
+     * @param $parentId
+     * @return array
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     */
+    protected function getExportProductVariants($products, $parentId): array
+    {
+        $variants = $this->getVariants($parentId);
+        if (count($variants) > 0) {
+            foreach ($variants as $variantId) {
+                if (!in_array($variantId, array_keys($products))) {
+                    $products[$variantId] = $this->getExportProduct($variantId);
+                }
+            }
+        }
+        return $products;
+    }
+
+    /**
+     * Return variants
+     *
+     * @param $id
+     * @return array
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
+     * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
+     */
+    protected function getVariants($id): array
+    {
+        $table = $this->getArticleTable();
+        $query = "select oxid from $table where oxparentid = :oxparentid and oxactive = 1";
+        $rs = DatabaseProvider::getDb()->getCol($query, [
+            ':oxparentid' => $id
+        ]);
+        if ($rs && is_array($rs) && count($rs) > 0) {
+            return $rs;
+        }
+        return [];
     }
 
     /**
@@ -306,7 +353,7 @@ class ProductExport
     protected function getAllProductsQuery(): string
     {
         $table = $this->getArticleTable();
-        return "select oxid from $table where oxactive = 1";
+        return "select $table.oxid, $table.oxparentid, $table.oxvarcount from $table where oxactive = 1 order by $table.oxartnum";
     }
 
     /**
@@ -318,7 +365,7 @@ class ProductExport
     {
         $table = $this->getArticleTable();
         $o2aTable = $this->getOxObject2AttributeTable();
-        return "select $table.oxid from $table join $o2aTable on $o2aTable.oxobjectid = $table.oxid and $o2aTable.oxattrid = '{$this->attributeOxid}' where $table.oxactive = 1";
+        return "select $table.oxid, $table.oxparentid, $table.oxvarcount from $table join $o2aTable on $o2aTable.oxobjectid = $table.oxid and $o2aTable.oxattrid = '{$this->attributeOxid}' where $table.oxactive = 1 order by $table.oxartnum";
     }
 
 }
