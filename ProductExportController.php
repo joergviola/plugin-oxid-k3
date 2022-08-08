@@ -3,6 +3,7 @@
 namespace FATCHIP\K3\Application\Controller;
 
 use FATCHIP\K3\Core\Export\ProductExport;
+use FATCHIP\K3\Core\Logger;
 use OxidEsales\Eshop\Core\Registry;
 
 class ProductExportController extends \OxidEsales\Eshop\Application\Controller\FrontendController
@@ -39,7 +40,7 @@ class ProductExportController extends \OxidEsales\Eshop\Application\Controller\F
             \OxidEsales\Eshop\Core\Registry::getUtils()->setHeader("Content-Type: application/json; charset=utf8");
             echo json_encode($export->getData());
         } catch (\Exception $e) {
-            Registry::getLogger()->error('Could not export articles', [
+            Registry::get(Logger::class)->error('Could not export articles', [
                 $e->getMessage(),
                 __METHOD__
             ]);

@@ -19,7 +19,7 @@ $aModule = [
     'extend' => [],
     'controllers' => [
         'fc_fck3_productexportcontroller' => \FATCHIP\K3\Application\Controller\ProductExportController::class,
-        'fc_fck3_authcontroller' => \FATCHIP\K3\Application\Controller\AuthController::class,
+        'fc_fck3_connectorcontroller' => \FATCHIP\K3\Application\Controller\ConnectorController::class,
         'fc_fck3_basketcontroller' => \FATCHIP\K3\Application\Controller\BasketController::class,
     ],
     'templates' => [],
