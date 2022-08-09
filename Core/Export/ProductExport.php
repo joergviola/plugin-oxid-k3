@@ -2,8 +2,8 @@
 
 namespace FATCHIP\K3\Core\Export;
 
-use FATCHIP\K3\Application\Model\Price;
-use FATCHIP\K3\Application\Model\Product;
+use FATCHIP\K3\Application\Model\Export\Price;
+use FATCHIP\K3\Application\Model\Export\Product;
 use OxidEsales\Eshop\Application\Model\Article;
 use OxidEsales\Eshop\Core\DatabaseProvider;
 use OxidEsales\Eshop\Core\Registry;

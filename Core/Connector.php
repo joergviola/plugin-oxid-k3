@@ -125,6 +125,14 @@ class Connector
     }
 
     /**
+     * @param string $productExportUrl
+     */
+    public function setProductExportUrl(string $productExportUrl): void
+    {
+        $this->productExportUrl = $productExportUrl;
+    }
+
+    /**
      * @return string
      */
     public function getConnectorUrl(): string
@@ -155,16 +163,9 @@ class Connector
         if (!$url) {
             $url = Registry::getConfig()->getShopHomeUrl() . 'cl=' . $controller;
         }
-        return $url;
+        return Registry::getUtilsUrl()->cleanUrl($url,['force_sid','sid']);
     }
 
-    /**
-     * @param string $productExportUrl
-     */
-    public function setProductExportUrl(string $productExportUrl): void
-    {
-        $this->productExportUrl = $productExportUrl;
-    }
 
     /**
      * Retrurn saved secret
