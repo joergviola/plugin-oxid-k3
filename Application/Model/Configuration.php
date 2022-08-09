@@ -13,9 +13,9 @@ class Configuration
     protected string $configurationId = '';
 
     /**
-     * @var array
+     * @var object
      */
-    protected array $configuration = [];
+    protected object $configuration;
 
     /**
      * @return string
@@ -34,17 +34,17 @@ class Configuration
     }
 
     /**
-     * @return array
+     * @return object
      */
-    public function getConfiguration(): array
+    public function getConfiguration(): object
     {
         return $this->configuration;
     }
 
     /**
-     * @param array $configuration
+     * @param object $configuration
      */
-    public function setConfiguration(array $configuration): void
+    public function setConfiguration(object $configuration): void
     {
         $this->configuration = $configuration;
     }
@@ -54,13 +54,13 @@ class Configuration
      *
      * @return array
      */
-    public function getBasketArticles(): array
+    public function getBasketProducts(): array
     {
         $basketArticles = [];
         $configuration = $this->getConfiguration();
-        $articles = $configuration['bom'];
+        $articles = $configuration->bom;
         foreach ($articles as $article) {
-            $basketArticles[] = $this->getBasketArticle($article, $configuration['variables']);
+            $basketArticles[] = $this->getBasketProduct($article, $configuration->variables);
 
         }
         return $basketArticles;
@@ -70,14 +70,14 @@ class Configuration
      * Return basket article
      *
      * @param $article
-     * @param array $variables
+     * @param array|null $variables
      * @return array
      */
-    protected function getBasketArticle($article, array $variables = []): array
+    protected function getBasketProduct($article, array $variables = null): array
     {
         return [
-            'id' => $this->getOxidFromArticleNumber($article['article']),
-            'amount' => $article['qty'],
+            'id' => $this->getOxidFromArticleNumber($article->article),
+            'amount' => $article->qty,
             'persparam' => $this->getPersParams($variables),
         ];
     }
@@ -94,9 +94,9 @@ class Configuration
         $params['k3']['id'] = $this->getConfigurationId();
         foreach ($variables as $variable) {
             $params['k3']['variables'][] = [
-                'id' => $variable['variableId'],
-                'label' => $variable['label'],
-                'value' => $variable['value'],
+                'id' => $variable->variableId,
+                'label' => $variable->label,
+                'value' => $variable->value,
             ];
         }
         return $params;

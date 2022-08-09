@@ -26,30 +26,13 @@ class BasketController extends \OxidEsales\Eshop\Application\Controller\Frontend
             Registry::get(Output::class)->json(['message' => 'No cfg parameter found in request.'], 503);
         }
 
-        $configurationId = 'test';
-        $rawCfg = '{
-    "variables":[
-        {"variableId":104,"value":"blue"},
-        {"variableId":105,"value":"red"}
-    ],
-    "bom":[
-        {"article":"1402","qty":1}
-
-    ]
-}';
-        $configurationString = json_decode($rawCfg,true);
-        $configuration = oxNew(Configuration::class);
-        $configuration->setConfigurationId($configurationId);
-        $configuration->setConfiguration($configurationString);
-        $basket = Registry::getSession()->getBasket();
         try {
-            $basketArticles = $configuration->getBasketArticles();
-            foreach( $basketArticles as $basketArticle ) {
-                $basket->addToBasket($basketArticle['id'],$basketArticle['amount'],null, $basketArticle['persparam']);
-            }
+            $service = oxNew(\FATCHIP\K3\Core\Service\Configuration::class);
+            $service->addToBasket($configurationId);
         } catch (\Exception $e) {
             \OxidEsales\Eshop\Core\Registry::getUtilsView()->addErrorToDisplay($e->getMessage());
         }
+
         Registry::getUtils()->redirect(Registry::getConfig()->getShopHomeUrl().'cl=basket');
         exit;
     }
