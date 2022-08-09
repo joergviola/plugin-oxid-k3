@@ -23,6 +23,11 @@ class ConnectorController extends \OxidEsales\Eshop\Application\Controller\Front
             Registry::get(Output::class)->json(['message' => 'Module not active.'], 503);
         }
 
+        $data = file_get_contents("php://input");
+        $aResult = json_decode($data, true);
+
+        error_log('controller: '.print_r($aResult,true));exit;
+
         $this->connectShop();
     }
 

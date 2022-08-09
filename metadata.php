@@ -16,7 +16,9 @@ $aModule = [
     'email' => 'support@fatchip.de',
     'url' => '',
     'thumbnail' => 'FC-Logo_24.png',
-    'extend' => [],
+    'extend' => [
+        \OxidEsales\Eshop\Application\Model\BasketItem::class => \FATCHIP\K3\Extend\Application\Model\BasketItem::class,
+    ],
     'controllers' => [
         'fc_fck3_productexportcontroller' => \FATCHIP\K3\Application\Controller\ProductExportController::class,
         'fc_fck3_connectorcontroller' => \FATCHIP\K3\Application\Controller\ConnectorController::class,

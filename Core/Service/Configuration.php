@@ -21,7 +21,11 @@ class Configuration
         $basket = Registry::getSession()->getBasket();
         $basketArticles = $configuration->getBasketProducts();
         foreach ($basketArticles as $basketArticle) {
-            $basket->addToBasket($basketArticle['id'], $basketArticle['amount'], null, $basketArticle['persparam']);
+            $encodedConfiguration = base64_encode(serialize($basketArticle['params']));
+            $params = [
+                'k3' => $encodedConfiguration
+            ];
+            $basket->addToBasket($basketArticle['id'], $basketArticle['amount'], null, $params);
         }
     }
 
@@ -34,7 +38,7 @@ class Configuration
     protected function getConfigurationModel($configurationId)
     {
         $configurationJson = $this->loadConfiguration($configurationId);
-        $configurationArray = json_decode($configurationJson, true);
+        $configurationArray = json_decode($configurationJson);
         $configuration = oxNew(\FATCHIP\K3\Application\Model\Configuration::class);
         $configuration->setConfigurationId($configurationId);
         $configuration->setConfiguration($configurationArray);

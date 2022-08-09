@@ -78,7 +78,7 @@ class Configuration
         return [
             'id' => $this->getOxidFromArticleNumber($article->article),
             'amount' => $article->qty,
-            'persparam' => $this->getPersParams($variables),
+            'params' => $this->getBasketProductParams($variables),
         ];
     }
 
@@ -88,12 +88,12 @@ class Configuration
      * @param $variables
      * @return array
      */
-    protected function getPersParams($variables): array
+    protected function getBasketProductParams($variables): array
     {
         $params = [];
-        $params['k3']['id'] = $this->getConfigurationId();
+        $params['id'] = $this->getConfigurationId();
         foreach ($variables as $variable) {
-            $params['k3']['variables'][] = [
+            $params['variables'][] = [
                 'id' => $variable->variableId,
                 'label' => $variable->label,
                 'value' => $variable->value,
