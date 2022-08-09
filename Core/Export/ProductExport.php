@@ -2,8 +2,8 @@
 
 namespace FATCHIP\K3\Core\Export;
 
-use FATCHIP\K3\Core\Export\Model\Price;
-use FATCHIP\K3\Core\Export\Model\Product;
+use FATCHIP\K3\Application\Model\Price;
+use FATCHIP\K3\Application\Model\Product;
 use OxidEsales\Eshop\Application\Model\Article;
 use OxidEsales\Eshop\Core\DatabaseProvider;
 use OxidEsales\Eshop\Core\Registry;
@@ -251,7 +251,7 @@ class ProductExport
      * Return export product
      *
      * @param $id
-     * @return Product|mixed|void
+     * @return ProductExport|mixed|void
      */
     protected function getExportProduct($id)
     {
