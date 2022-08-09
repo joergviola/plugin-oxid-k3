@@ -43,14 +43,6 @@ class Connector
      */
     public function __construct()
     {
-        $secret = $this->getSavedSecret();
-        if ($secret) {
-            $this->setSecret($secret);
-        }
-        $token = $this->getSavedToken();
-        if ($token) {
-            $this->setToken($token);
-        }
     }
 
     /**
@@ -209,13 +201,6 @@ class Connector
      */
     public function save(): bool
     {
-        $validation = oxNew(Validation::class);
-        //check old secret against header
-        if (!$validation->isValidSecret($this->getSavedSecret())) {
-            Registry::get(Logger::class)->error('Secret is not valid',
-            [__METHOD__]);
-            return false;
-        }
         Registry::getConfig()->saveShopConfVar('str', 'sFcK3AuthSecret', $this->getSecret(), $this->getShopId(),
             'fck3');
         Registry::getConfig()->saveShopConfVar('str', 'sFcK3AuthToken', $this->getToken(), $this->getShopId(),

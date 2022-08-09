@@ -9,7 +9,7 @@ $aModule = [
     'id' => 'fck3',
     'title' => 'FATCHIP Modul K3 Objectcode',
     'description' => [
-        'de' => 'Integration von K3 von Objectcode',
+        'de' => 'Integration von K3 Objectcode',
     ],
     'version' => '1.0.0',
     'author' => 'FATCHIP GmbH',
@@ -24,6 +24,27 @@ $aModule = [
     ],
     'templates' => [],
     'settings' => [
+        [
+            'group' => 'fck3',
+            'name' => 'blFcK3Active',
+            'type' => 'bool',
+            'value' => true,
+            'position' => 1,
+        ],
+        [
+            'group' => 'fck3',
+            'name' => 'sFcK3AuthToken',
+            'type' => 'str',
+            'value' => '',
+            'position' => 10,
+        ],
+        [
+            'group' => 'fck3',
+            'name' => 'sFcK3AuthSecret',
+            'type' => 'str',
+            'value' => '',
+            'position' => 20,
+        ],
     ],
     'blocks' => [
     ],

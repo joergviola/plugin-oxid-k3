@@ -2,6 +2,9 @@
 
 namespace FATCHIP\K3\Application\Controller;
 
+use FATCHIP\K3\Core\Output;
+use OxidEsales\Eshop\Core\Registry;
+
 class BasketController extends \OxidEsales\Eshop\Application\Controller\FrontendController
 {
     /**
@@ -13,6 +16,10 @@ class BasketController extends \OxidEsales\Eshop\Application\Controller\Frontend
      */
     public function render()
     {
+        if (!Registry::getConfig()->getConfigParam('blFcK3Active')) {
+            Registry::get(Output::class)->json(['message' => 'Module not active.'], 503);
+        }
+
         dumpVar(1);
         exit;
     }

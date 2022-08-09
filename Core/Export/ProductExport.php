@@ -23,11 +23,18 @@ class ProductExport
     protected int $langId = 0;
 
     /**
-     * Currency
+     * Currency id
      *
      * @var null
      */
-    protected string $currency = '';
+    protected int $currencyId = 0;
+
+    /**
+     * Currency object
+     *
+     * @var mixed
+     */
+    protected $currency = null;
 
     /**
      * Export data
@@ -76,23 +83,42 @@ class ProductExport
     }
 
     /**
-     * Set currency
+     * Set currency id
      *
-     * @param string $currency
+     * @param string $currencyId
      * @return void
      */
-    public function setCurrency(string $currency)
+    public function setCurrencyId(string $currencyId)
     {
-        $this->currency = $currency;
+        $this->currencyId = $currencyId;
+    }
+
+    /**
+     * Return currency id
+     *
+     * @return string
+     */
+    protected function getCurrencyId(): string
+    {
+        return $this->currencyId;
     }
 
     /**
      * Return currency
      *
-     * @return string
+     * @return
      */
-    protected function getCurrency(): string
+    protected function getCurrency()
     {
+        if ($this->currency === null) {
+            $id = $this->getCurrencyId();
+            $currencies = Registry::getConfig()->getCurrencyArray();
+            if (!isset($currencies[$id])) {
+                $this->currency = reset($currencies); // reset() returns the first element
+            } else {
+                $this->currency = $currencies[$id];
+            }
+        }
         return $this->currency;
     }
 
@@ -230,7 +256,7 @@ class ProductExport
     protected function getExportProduct($id)
     {
         $article = oxNew(Article::class);
-        if ($article->load($id)) {
+        if ($article->loadInLang($this->getLangId(), $id)) {
             $exportProduct = oxNew(Product::class);
             $exportProduct->setNo($article->getFieldData('oxartnum'));
             $exportProduct->setName($article->getFieldData('oxtitle'));
@@ -278,7 +304,8 @@ class ProductExport
         $exportPrice = oxNew(Price::class);
         $exportPrice->setPrice($price->getBruttoPrice());
         $exportPrice->setType('fixed');
-        $exportPrice->setCurrency($this->getCurrency());
+        $currency = $this->getCurrency();
+        $exportPrice->setCurrency($currency->name);
         return $exportPrice;
     }
 
@@ -296,7 +323,8 @@ class ProductExport
             $exportPrice->setPrice($price->getBruttoPrice());
             $exportPrice->setType('fixed');
             $exportPrice->setDisplayOnly('streich');
-            $exportPrice->setCurrency($this->getCurrency());
+            $currency = $this->getCurrency();
+            $exportPrice->setCurrency($currency->name);
             return $exportPrice;
         }
     }
@@ -312,6 +340,7 @@ class ProductExport
         $amountPrices = $article->loadAmountPriceInfo();
         if ($amountPrices) {
             $exportPrices = [];
+            $currency = $this->getCurrency();
             foreach ($amountPrices as $amountPrice) {
                 $price = str_replace('.', '', $amountPrice->fbrutprice);
                 $price = str_replace(',', '.', $price);
@@ -320,7 +349,7 @@ class ProductExport
                 $exportPrice->setType('fixed');
                 $exportPrice->setFromQty($amountPrice->getFieldData('oxamount'));
                 $exportPrice->setToQty($amountPrice->getFieldData('oxamountto'));
-                $exportPrice->setCurrency($this->getCurrency());
+                $exportPrice->setCurrency($currency->name);
                 $exportPrices[] = $exportPrice;
             }
             return $exportPrices;

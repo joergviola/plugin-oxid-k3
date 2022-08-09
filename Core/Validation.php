@@ -5,12 +5,12 @@ namespace FATCHIP\K3\Core;
 class Validation
 {
     /**
-     * Check is secret is valid
+     * Check is secret is valid and in header
      *
      * @param $secret
      * @return bool
      */
-    public function isValidSecret($secret): bool
+    public function isSecretInHeader($secret): bool
     {
         $headers = $this->getHeaders();
         if ($secret && (!isset($headers['X-Secret']) || $secret != $headers['X-Secret'])) {
