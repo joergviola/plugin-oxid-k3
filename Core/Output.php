@@ -1,6 +1,6 @@
 <?php
 
-namespace FATCHIP\K3\Core;
+namespace FATCHIP\ObjectCodeK3\Core;
 
 class Output
 {

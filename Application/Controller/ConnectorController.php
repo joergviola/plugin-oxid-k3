@@ -1,11 +1,11 @@
 <?php
 
-namespace FATCHIP\K3\Application\Controller;
+namespace FATCHIP\ObjectCodeK3\Application\Controller;
 
-use FATCHIP\K3\Core\Connector;
-use FATCHIP\K3\Core\Logger;
-use FATCHIP\K3\Core\Output;
-use FATCHIP\K3\Core\Validation;
+use FATCHIP\ObjectCodeK3\Core\Connector;
+use FATCHIP\ObjectCodeK3\Core\Logger;
+use FATCHIP\ObjectCodeK3\Core\Output;
+use FATCHIP\ObjectCodeK3\Core\Validation;
 use OxidEsales\Eshop\Core\Registry;
 
 class ConnectorController extends \OxidEsales\Eshop\Application\Controller\FrontendController
@@ -19,14 +19,14 @@ class ConnectorController extends \OxidEsales\Eshop\Application\Controller\Front
      */
     public function render()
     {
-        if (!Registry::getConfig()->getConfigParam('blFcK3Active')) {
+        if (!Registry::getConfig()->getConfigParam('blFcObjectCodeK3Active')) {
             Registry::get(Output::class)->json(['message' => 'Module not active.'], 503);
         }
 
         $data = file_get_contents("php://input");
         $aResult = json_decode($data, true);
 
-        error_log('controller: '.print_r($aResult,true));exit;
+        error_log('controller: '.print_r($aResult,true));
 
         $this->connectShop();
     }
@@ -46,8 +46,6 @@ class ConnectorController extends \OxidEsales\Eshop\Application\Controller\Front
             $this->validateParameters($token, $secret);
 
             $connector = oxNew(Connector::class);
-            $connector->setShopId(Registry::getConfig()->getShopId());
-
             $this->validateSecret($connector);
 
             $connector->setToken($token);
@@ -94,8 +92,7 @@ class ConnectorController extends \OxidEsales\Eshop\Application\Controller\Front
      */
     protected function validateSecret($connector)
     {
-        //check old secret against header
-        if (!Registry::get(Validation::class)->isSecretInHeader($connector->getSavedSecret())) {
+        if (!Registry::get(Validation::class)->isSecretInHeader($connector->getSecret())) {
             Registry::get(Logger::class)->error('Secret is not valid',
                 [__METHOD__]);
             Registry::get(Output::class)->json(['message' => 'Secret is not valid.'], 403);

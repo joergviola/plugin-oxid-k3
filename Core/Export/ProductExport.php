@@ -1,9 +1,9 @@
 <?php
 
-namespace FATCHIP\K3\Core\Export;
+namespace FATCHIP\ObjectCodeK3\Core\Export;
 
-use FATCHIP\K3\Application\Model\Export\Price;
-use FATCHIP\K3\Application\Model\Export\Product;
+use FATCHIP\ObjectCodeK3\Application\Model\Export\Price;
+use FATCHIP\ObjectCodeK3\Application\Model\Export\Product;
 use OxidEsales\Eshop\Application\Model\Article;
 use OxidEsales\Eshop\Core\DatabaseProvider;
 use OxidEsales\Eshop\Core\Registry;
@@ -49,6 +49,16 @@ class ProductExport
      * @var string
      */
     protected string $attributeOxid = 'k3product';
+
+    /**
+     * set default values
+     */
+    public function __construct()
+    {
+        $this->setLangId(Registry::getLang()->getBaseLanguage());
+        $this->setShopId(Registry::getConfig()->getShopId());
+        $this->setCurrencyId(Registry::getConfig()->getShopCurrency());
+    }
 
     /**
      * Set shop id

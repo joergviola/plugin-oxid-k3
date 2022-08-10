@@ -1,6 +1,6 @@
 <?php
 
-namespace FATCHIP\K3\Application\Model;
+namespace FATCHIP\ObjectCodeK3\Application\Model;
 
 use OxidEsales\Eshop\Core\DatabaseProvider;
 use function oxNew;
@@ -91,7 +91,8 @@ class Configuration
     protected function getBasketProductParams($variables): array
     {
         $params = [];
-        $params['id'] = $this->getConfigurationId();
+        $params['configurationId'] = $this->getConfigurationId();
+        $params['appCode'] = 'testAppCode';
         foreach ($variables as $variable) {
             $params['variables'][] = [
                 'id' => $variable->variableId,

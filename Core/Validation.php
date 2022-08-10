@@ -1,6 +1,6 @@
 <?php
 
-namespace FATCHIP\K3\Core;
+namespace FATCHIP\ObjectCodeK3\Core;
 
 class Validation
 {
@@ -13,7 +13,7 @@ class Validation
     public function isSecretInHeader($secret): bool
     {
         $headers = $this->getHeaders();
-        if ($secret && (!isset($headers['X-Secret']) || $secret != $headers['X-Secret'])) {
+        if ((!isset($headers['X-Secret']) || $secret != $headers['X-Secret'])) {
             return false;
         }
         return true;

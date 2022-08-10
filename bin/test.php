@@ -22,7 +22,7 @@ $rawCfg = '{
     ]
 }';
 $cfg = json_decode($rawCfg);
-$configuraton = oxNew(\FATCHIP\K3\Application\Model\Configuration::class);
+$configuraton = oxNew(\FATCHIP\ObjectCodeK3\Application\Model\Configuration::class);
 $configuraton->setConfigurationId('test');
 $configuraton->setConfiguration($cfg);
 $basketData = $configuraton->getBasketProducts();

@@ -1,6 +1,6 @@
 <?php
 
-namespace FATCHIP\K3\Application\Model\Export;
+namespace FATCHIP\ObjectCodeK3\Application\Model\Export;
 
 class Product
 {

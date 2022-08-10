@@ -1,6 +1,6 @@
 <?php
 
-namespace FATCHIP\K3\Extend\Application\Model;
+namespace FATCHIP\ObjectCodeK3\Extend\Application\Model;
 
 class BasketItem extends BasketItem_Parent
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace FATCHIP\K3\Core;
+namespace FATCHIP\ObjectCodeK3\Core;
 
 use OxidEsales\Eshop\Core\Registry;
 
@@ -15,7 +15,7 @@ class Logger implements \Psr\Log\LoggerInterface
      *
      * @var string
      */
-    protected string $logFileName = 'fck3.log';
+    protected string $logFileName = 'fcobjectcodek3.log';
 
     /**
      * logger object
@@ -35,11 +35,11 @@ class Logger implements \Psr\Log\LoggerInterface
     /**
      * Push a handler to the list of handlers
      *
-     * @param \Monolog\Handler\HandlerInterface $oHandler
+     * @param \Monolog\Handler\HandlerInterface $handler
      */
-    public function pushHandler(\Monolog\Handler\HandlerInterface $oHandler)
+    public function pushHandler(\Monolog\Handler\HandlerInterface $handler)
     {
-        $this->psrLogger->pushHandler($oHandler);
+        $this->psrLogger->pushHandler($handler);
     }
 
     /**
@@ -176,20 +176,9 @@ class Logger implements \Psr\Log\LoggerInterface
      */
     private function initDefaultHandler()
     {
-        $logFileName = $this->getLogFileName();
-        $defaultLogFile = \OxidEsales\Eshop\Core\Registry::getConfig()->getLogsDir() . DIRECTORY_SEPARATOR . $logFileName;
+        $defaultLogFile = \OxidEsales\Eshop\Core\Registry::getConfig()->getLogsDir() . DIRECTORY_SEPARATOR . $this->logFileName;
 
         $streamHandler = new \Monolog\Handler\StreamHandler($defaultLogFile);
         $this->psrLogger->pushHandler($streamHandler);
-    }
-
-    /**
-     * Return log file name
-     *
-     * @return string
-     */
-    protected function getLogFileName(): string
-    {
-        return $this->logFileName;
     }
 }

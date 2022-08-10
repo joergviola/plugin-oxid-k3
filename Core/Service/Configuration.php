@@ -1,7 +1,8 @@
 <?php
 
-namespace FATCHIP\K3\Core\Service;
+namespace FATCHIP\ObjectCodeK3\Core\Service;
 
+use FATCHIP\ObjectCodeK3\Core\Request;
 use OxidEsales\Eshop\Core\Registry;
 
 class Configuration
@@ -33,15 +34,15 @@ class Configuration
      * Create configuration model
      *
      * @param $configurationId
-     * @return \FATCHIP\K3\Application\Model\Configuration|mixed
+     * @return \FATCHIP\ObjectCodeK3\Application\Model\Configuration|mixed
      */
     protected function getConfigurationModel($configurationId)
     {
         $configurationJson = $this->loadConfiguration($configurationId);
-        $configurationArray = json_decode($configurationJson);
-        $configuration = oxNew(\FATCHIP\K3\Application\Model\Configuration::class);
+        $configurationObject = json_decode($configurationJson);
+        $configuration = oxNew(\FATCHIP\ObjectCodeK3\Application\Model\Configuration::class);
         $configuration->setConfigurationId($configurationId);
-        $configuration->setConfiguration($configurationArray);
+        $configuration->setConfiguration($configurationObject);
         return $configuration;
     }
 
@@ -63,6 +64,14 @@ class Configuration
     ]
 }';
         return $rawCfg;
+        $configuration = oxNew(Request::class)->getConfiguration($configurationId);
+        if ( $configuration ) {
+            return $configuration;
+        }
+    }
+
+    public function setOrdered($configurationId, $appCode) {
+
     }
 
 

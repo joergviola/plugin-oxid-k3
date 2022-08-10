@@ -1,6 +1,6 @@
 <?php
 
-namespace FATCHIP\K3\Core;
+namespace FATCHIP\ObjectCodeK3\Core;
 
 use OxidEsales\Eshop\Core\Registry;
 
@@ -43,6 +43,7 @@ class Connector
      */
     public function __construct()
     {
+        $this->shopId = Registry::getConfig()->getShopId();
     }
 
     /**
@@ -66,6 +67,12 @@ class Connector
      */
     public function getToken(): string
     {
+        if (!$this->token) {
+            $token = Registry::getConfig()->getShopConfVar('sFcObjectCodeK3AuthToken', $this->getShopId(), 'fck3');
+            if ($token) {
+                $this->token = $token;
+            }
+        }
         return $this->token;
     }
 
@@ -82,6 +89,12 @@ class Connector
      */
     public function getSecret(): string
     {
+        if (!$this->secret) {
+            $secret = Registry::getConfig()->getShopConfVar('sFcObjectCodeK3AuthSecret', $this->getShopId(), 'fck3');
+            if ($secret) {
+                $this->secret = $secret;
+            }
+        }
         return $this->secret;
     }
 
@@ -99,7 +112,7 @@ class Connector
     public function getBasketUrl(): string
     {
         if (!$this->basketUrl) {
-            $this->basketUrl = $this->getControllerUrl('fc_fck3_basketcontroller');
+            $this->basketUrl = $this->getControllerUrl('fc_fcobjectcodek3_basketcontroller');
         }
         return $this->basketUrl;
     }
@@ -118,7 +131,7 @@ class Connector
     public function getProductExportUrl(): string
     {
         if (!$this->productExportUrl) {
-            $this->productExportUrl = $this->getControllerUrl('fc_fck3_productexportcontroller');
+            $this->productExportUrl = $this->getControllerUrl('fc_fcobjectcodek3_productexportcontroller');
         }
 
         return $this->productExportUrl;
@@ -138,7 +151,7 @@ class Connector
     public function getConnectorUrl(): string
     {
         if (!$this->connectorUrl) {
-            $this->connectorUrl = $this->getControllerUrl('fc_fck3_connectorcontroller');
+            $this->connectorUrl = $this->getControllerUrl('fc_fcobjectcodek3_connectorcontroller');
         }
         return $this->connectorUrl;
     }
@@ -163,36 +176,7 @@ class Connector
         if (!$url) {
             $url = Registry::getConfig()->getShopHomeUrl() . 'cl=' . $controller;
         }
-        return Registry::getUtilsUrl()->cleanUrl($url,['force_sid','sid']);
-    }
-
-
-    /**
-     * Retrurn saved secret
-     *
-     * @return string
-     */
-    public function getSavedSecret(): string
-    {
-        $secret = Registry::getConfig()->getShopConfVar('sFcK3AuthSecret', $this->getShopId(), 'fck3');
-        if ($secret) {
-            return $secret;
-        }
-        return '';
-    }
-
-    /**
-     * Return saved token
-     *
-     * @return string
-     */
-    public function getSavedToken(): string
-    {
-        $token = Registry::getConfig()->getShopConfVar('sFcK3AuthToken', $this->getShopId(), 'fck3');
-        if ($token) {
-            return $token;
-        }
-        return '';
+        return Registry::getUtilsUrl()->cleanUrl($url, ['force_sid', 'sid']);
     }
 
     /**
@@ -202,12 +186,12 @@ class Connector
      */
     public function save(): bool
     {
-        Registry::getConfig()->saveShopConfVar('str', 'sFcK3AuthSecret', $this->getSecret(), $this->getShopId(),
+        Registry::getConfig()->saveShopConfVar('str', 'sFcObjectCodeK3AuthSecret', $this->getSecret(),
+            $this->getShopId(),
             'fck3');
-        Registry::getConfig()->saveShopConfVar('str', 'sFcK3AuthToken', $this->getToken(), $this->getShopId(),
+        Registry::getConfig()->saveShopConfVar('str', 'sFcObjectCodeK3AuthToken', $this->getToken(), $this->getShopId(),
             'fck3');
         return true;
     }
-
 
 }

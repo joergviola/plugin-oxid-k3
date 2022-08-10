@@ -25,8 +25,8 @@ $aLang = [
     'charset' => 'UTF-8', // Supports german language specific chars like: ä, ö. ß, etc.
 
     //config
-    'SHOP_MODULE_GROUP_fck3'             => 'Stamm',
-    'SHOP_MODULE_blFcK3Active'             => 'Aktiv',
-    'SHOP_MODULE_sFcK3AuthSecret'             => 'Secret',
-    'SHOP_MODULE_sFcK3AuthToken'             => 'Token',
+    'SHOP_MODULE_GROUP_fcobjectcodek3'             => 'Stamm',
+    'SHOP_MODULE_blFcObjectCodeK3Active'             => 'Aktiv',
+    'SHOP_MODULE_sFcObjectCodeK3AuthSecret'             => 'Secret',
+    'SHOP_MODULE_sFcObjectCodeK3AuthToken'             => 'Token',
 ];

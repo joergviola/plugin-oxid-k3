@@ -1,10 +1,12 @@
 <?php
 
-namespace FATCHIP\K3\Application\Controller;
+namespace FATCHIP\ObjectCodeK3\Application\Controller;
 
-use FATCHIP\K3\Core\Export\ProductExport;
-use FATCHIP\K3\Core\Logger;
-use FATCHIP\K3\Core\Output;
+use FATCHIP\ObjectCodeK3\Core\Connector;
+use FATCHIP\ObjectCodeK3\Core\Export\ProductExport;
+use FATCHIP\ObjectCodeK3\Core\Logger;
+use FATCHIP\ObjectCodeK3\Core\Output;
+use FATCHIP\ObjectCodeK3\Core\Validation;
 use OxidEsales\Eshop\Core\Registry;
 
 class ProductExportController extends \OxidEsales\Eshop\Application\Controller\FrontendController
@@ -18,7 +20,7 @@ class ProductExportController extends \OxidEsales\Eshop\Application\Controller\F
      */
     public function render()
     {
-        if (!Registry::getConfig()->getConfigParam('blFcK3Active')) {
+        if (!Registry::getConfig()->getConfigParam('blFcObjectCodeK3Active')) {
             Registry::get(Output::class)->json(['message' => 'Module not active.'], 503);
         }
 
@@ -35,11 +37,9 @@ class ProductExportController extends \OxidEsales\Eshop\Application\Controller\F
     protected function outputExport()
     {
         try {
+            $connector = oxNew(Connector::class);
+            $this->validateSecret($connector);
             $export = oxNew(ProductExport::class);
-            $lang = Registry::getLang()->getBaseLanguage();
-            $export->setLangId($lang);
-            $export->setShopId(Registry::getConfig()->getShopId());
-            $export->setCurrencyId(Registry::getConfig()->getShopCurrency());
             Registry::get(Output::class)->json($export->getData(), 200);
         } catch (\Exception $e) {
             Registry::get(Logger::class)->error('Could not export articles', [
@@ -48,5 +48,20 @@ class ProductExportController extends \OxidEsales\Eshop\Application\Controller\F
             ]);
         }
         exit;
+    }
+
+    /**
+     * Validate secret
+     *
+     * @param $connector
+     * @return void
+     */
+    protected function validateSecret($connector)
+    {
+        if (!Registry::get(Validation::class)->isSecretInHeader($connector->getSecret())) {
+            Registry::get(Logger::class)->error('Secret is not valid',
+                [__METHOD__]);
+            Registry::get(Output::class)->json(['message' => 'Secret is not valid.'], 403);
+        }
     }
 }

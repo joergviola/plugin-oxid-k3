@@ -6,7 +6,7 @@
 $sMetadataVersion = '2.1';
 
 $aModule = [
-    'id' => 'fck3',
+    'id' => 'fcobjectcodek3',
     'title' => 'FATCHIP Modul K3 Objectcode',
     'description' => [
         'de' => 'Integration von K3 Objectcode',
@@ -17,32 +17,33 @@ $aModule = [
     'url' => '',
     'thumbnail' => 'FC-Logo_24.png',
     'extend' => [
-        \OxidEsales\Eshop\Application\Model\BasketItem::class => \FATCHIP\K3\Extend\Application\Model\BasketItem::class,
+        \OxidEsales\Eshop\Application\Model\BasketItem::class => \FATCHIP\ObjectCodeK3\Extend\Application\Model\BasketItem::class,
+        \OxidEsales\Eshop\Application\Model\Order::class => \FATCHIP\ObjectCodeK3\Extend\Application\Model\Order::class,
     ],
     'controllers' => [
-        'fc_fck3_productexportcontroller' => \FATCHIP\K3\Application\Controller\ProductExportController::class,
-        'fc_fck3_connectorcontroller' => \FATCHIP\K3\Application\Controller\ConnectorController::class,
-        'fc_fck3_basketcontroller' => \FATCHIP\K3\Application\Controller\BasketController::class,
+        'fc_fcobjectcodek3_productexportcontroller' => \FATCHIP\ObjectCodeK3\Application\Controller\ProductExportController::class,
+        'fc_fcobjectcodek3_connectorcontroller' => \FATCHIP\ObjectCodeK3\Application\Controller\ConnectorController::class,
+        'fc_fcobjectcodek3_basketcontroller' => \FATCHIP\ObjectCodeK3\Application\Controller\BasketController::class,
     ],
     'templates' => [],
     'settings' => [
         [
-            'group' => 'fck3',
-            'name' => 'blFcK3Active',
+            'group' => 'fcobjectcodek3',
+            'name' => 'blFcObjectCodeK3Active',
             'type' => 'bool',
             'value' => true,
             'position' => 1,
         ],
         [
-            'group' => 'fck3',
-            'name' => 'sFcK3AuthToken',
+            'group' => 'fcobjectcodek3',
+            'name' => 'sFcObjectCodeK3AuthToken',
             'type' => 'str',
             'value' => '',
             'position' => 10,
         ],
         [
-            'group' => 'fck3',
-            'name' => 'sFcK3AuthSecret',
+            'group' => 'fcobjectcodek3',
+            'name' => 'sFcObjectCodeK3AuthSecret',
             'type' => 'str',
             'value' => '',
             'position' => 20,
