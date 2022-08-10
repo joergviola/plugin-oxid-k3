@@ -71,5 +71,8 @@ $aModule = [
             'file'     => 'Application/views/tpl/blocks/email_plain_order_cust_persparams.tpl'
         ],
     ],
-    'events' => [],
+    'events' => [
+        'onActivate' => '\FATCHIP\ObjectCodeK3\Core\Events::onActivate',
+        'onDeactivate' => '\FATCHIP\ObjectCodeK3\Core\Events::onDeactivate',
+    ],
 ];
