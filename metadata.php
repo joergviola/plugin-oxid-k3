@@ -50,6 +50,26 @@ $aModule = [
         ],
     ],
     'blocks' => [
+        [
+            'template' => 'page/checkout/inc/basketcontents_list.tpl',
+            'block'    => 'checkout_basketcontents_basketitem_persparams',
+            'file'     => 'Application/views/tpl/blocks/checkout_basketcontents_basketitem_persparams.tpl'
+        ],
+        [
+            'template' => 'page/checkout/inc/basketcontents_table.tpl',
+            'block'    => 'checkout_basketcontents_basketitem_persparams',
+            'file'     => 'Application/views/tpl/blocks/checkout_basketcontents_basketitem_persparams.tpl'
+        ],
+        [
+            'template' => 'email/html/order_cust.tpl',
+            'block'    => 'email_html_order_cust_basketitem_persparams',
+            'file'     => 'Application/views/tpl/blocks/email_html_order_cust_basketitem_persparams.tpl'
+        ],
+        [
+            'template' => 'email/plain/order_cust.tpl',
+            'block'    => 'email_plain_order_cust_persparams',
+            'file'     => 'Application/views/tpl/blocks/email_plain_order_cust_persparams.tpl'
+        ],
     ],
     'events' => [],
 ];

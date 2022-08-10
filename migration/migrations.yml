@@ -1,0 +1,4 @@
+name: FATCHIP Modul K3 Objectcode Migrations
+migrations_namespace: FATCHIP\ObjectCodeK3\Migrations
+table_name: fcmigrations_fcobjectcodek3
+migrations_directory: data

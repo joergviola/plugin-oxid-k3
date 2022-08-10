@@ -68,7 +68,7 @@ class Connector
     public function getToken(): string
     {
         if (!$this->token) {
-            $token = Registry::getConfig()->getShopConfVar('sFcObjectCodeK3AuthToken', $this->getShopId(), 'fck3');
+            $token = Registry::getConfig()->getShopConfVar('sFcObjectCodeK3AuthToken', $this->getShopId(), 'fcobjectcodek3');
             if ($token) {
                 $this->token = $token;
             }
@@ -90,7 +90,7 @@ class Connector
     public function getSecret(): string
     {
         if (!$this->secret) {
-            $secret = Registry::getConfig()->getShopConfVar('sFcObjectCodeK3AuthSecret', $this->getShopId(), 'fck3');
+            $secret = Registry::getConfig()->getShopConfVar('sFcObjectCodeK3AuthSecret', $this->getShopId(), 'fcobjectcodek3');
             if ($secret) {
                 $this->secret = $secret;
             }
@@ -188,9 +188,9 @@ class Connector
     {
         Registry::getConfig()->saveShopConfVar('str', 'sFcObjectCodeK3AuthSecret', $this->getSecret(),
             $this->getShopId(),
-            'fck3');
+            'fcobjectcodek3');
         Registry::getConfig()->saveShopConfVar('str', 'sFcObjectCodeK3AuthToken', $this->getToken(), $this->getShopId(),
-            'fck3');
+            'fcobjectcodek3');
         return true;
     }
 

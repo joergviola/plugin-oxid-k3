@@ -22,12 +22,6 @@ class ConnectorController extends \OxidEsales\Eshop\Application\Controller\Front
         if (!Registry::getConfig()->getConfigParam('blFcObjectCodeK3Active')) {
             Registry::get(Output::class)->json(['message' => 'Module not active.'], 503);
         }
-
-        $data = file_get_contents("php://input");
-        $aResult = json_decode($data, true);
-
-        error_log('controller: '.print_r($aResult,true));
-
         $this->connectShop();
     }
 
@@ -41,13 +35,10 @@ class ConnectorController extends \OxidEsales\Eshop\Application\Controller\Front
     protected function connectShop()
     {
         try {
-            $token = Registry::getRequest()->getRequestParameter('token');
-            $secret = Registry::getRequest()->getRequestParameter('secret');
+            list($token,$secret) = $this->getTokenAndSecret();
             $this->validateParameters($token, $secret);
-
             $connector = oxNew(Connector::class);
             $this->validateSecret($connector);
-
             $connector->setToken($token);
             $connector->setSecret($secret);
             if ($connector->save()) {
@@ -92,10 +83,31 @@ class ConnectorController extends \OxidEsales\Eshop\Application\Controller\Front
      */
     protected function validateSecret($connector)
     {
-        if (!Registry::get(Validation::class)->isSecretInHeader($connector->getSecret())) {
+        if ($connector->getSecret() && !Registry::get(Validation::class)->isSecretInHeader($connector->getSecret())) {
             Registry::get(Logger::class)->error('Secret is not valid',
                 [__METHOD__]);
             Registry::get(Output::class)->json(['message' => 'Secret is not valid.'], 403);
         }
+    }
+
+    /**
+     * Return token and secret
+     *
+     * @return array
+     */
+    protected function getTokenAndSecret(): array
+    {
+        $token = Registry::getRequest()->getRequestParameter('token');
+        $secret = Registry::getRequest()->getRequestParameter('secret');
+        if (!$token && !$secret) {
+            $data = file_get_contents("php://input");
+            $request = json_decode($data, true);
+            $token = $request['token'];
+            $secret = $request['secret'];
+        }
+        return [
+            $token,
+            $secret
+        ];
     }
 }
