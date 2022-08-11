@@ -11,19 +11,19 @@ An oxid module to integrate K3 configurator from ObjectCode
    "repositories": [
       {
         "type": "vcs",
-        "url": "https://github.com/FATCHIP-GmbH/plugin-oxid-fck3"
+        "url": "https://github.com/FATCHIP-GmbH/plugin-oxid-k3"
       }
     ]
   ```
   -  command line
   ```
-  composer config repositories.fatchip-gmbh/plugin-oxid-fck3 vcs https://github.com/FATCHIP-GmbH/plugin-oxid-fck3
+  composer config repositories.fatchip-gmbh/plugin-oxid-k3 vcs https://github.com/FATCHIP-GmbH/plugin-oxid-k3
   ```
 
-- Generate a github token with access to the FATCHIP-GmbH/plugin-oxid-fck3 repository
+- Generate a github token with access to the FATCHIP-GmbH/plugin-oxid-k3 repository
 - execute the following command in the base folder (where the composer.json file is located)
 ```
-composer require fatchip-gmbh/plugin-oxid-fck3 --update-no-dev
+composer require fatchip-gmbh/plugin-oxid-k3 --update-no-dev
 ```
 - enter token to authenticate
 - activate the module after the composer install is finished
