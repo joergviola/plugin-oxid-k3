@@ -26,6 +26,10 @@ An oxid module to integrate K3 configurator from ObjectCode
 composer require fatchip-gmbh/plugin-oxid-k3 --update-no-dev
 ```
 - enter token to authenticate
+- execute database migrations
+```
+vendor/bin/oe-eshop-db_migrate migrations:migrate
+```
 - activate the module after the composer install is finished
 ```
 vendor/bin/oe-console oe:module:activate fcobjectcodek3
@@ -59,7 +63,7 @@ vendor/bin/oe-console oe:module:install-configuration source/modules/fc/fcobject
 vendor/bin/oe-console oe:module:apply-configuration
 ```
 
-- execute migrations
+- execute database migrations
 ```
 vendor/bin/oe-eshop-db_migrate migrations:migrate
 ```
