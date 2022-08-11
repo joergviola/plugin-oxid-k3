@@ -1,0 +1,22 @@
+{
+  "name": "fatchip-gmbh/plugin-oxid-fck3",
+  "type": "oxideshop-module",
+  "keywords": [
+    "oxid", "k3", "objectcode", "configurator"
+  ],
+  "homepage": "https://www.fatchip.de",
+  "extra": {
+    "oxideshop": {
+      "target-directory": "fc/fcobjectcodek3"
+    }
+  },
+  "require": {
+    "php": ">=7.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "FATCHIP\\ObjectCodeK3\\": "../../../source/modules/fc/fcobjectcodek3"
+    }
+  }
+}
+
