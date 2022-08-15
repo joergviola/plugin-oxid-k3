@@ -3,9 +3,9 @@
 namespace FATCHIP\ObjectCodeK3\Application\Controller;
 
 use FATCHIP\ObjectCodeK3\Core\Connector;
-use FATCHIP\ObjectCodeK3\Core\Export\Export;
 use FATCHIP\ObjectCodeK3\Core\Logger;
 use FATCHIP\ObjectCodeK3\Core\Output;
+use FATCHIP\ObjectCodeK3\Core\Service\Export;
 use FATCHIP\ObjectCodeK3\Core\Validation;
 use OxidEsales\Eshop\Core\Registry;
 

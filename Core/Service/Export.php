@@ -1,6 +1,6 @@
 <?php
 
-namespace FATCHIP\ObjectCodeK3\Core\Export;
+namespace FATCHIP\ObjectCodeK3\Core\Service;
 
 use FATCHIP\ObjectCodeK3\Application\Model\Export\Price;
 use FATCHIP\ObjectCodeK3\Application\Model\Export\Product;
