@@ -8,7 +8,7 @@ use OxidEsales\Eshop\Application\Model\Article;
 use OxidEsales\Eshop\Core\DatabaseProvider;
 use OxidEsales\Eshop\Core\Registry;
 
-class ProductExport
+class Export
 {
     /** Shop ID
      *
@@ -178,7 +178,7 @@ class ProductExport
      * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
      * @throws \OxidEsales\Eshop\Core\Exception\DatabaseErrorException
      */
-    public function getData(): array
+    public function getProducts(): array
     {
         $products = $this->getExportProducts();
         foreach ($products as $product) {
@@ -261,7 +261,7 @@ class ProductExport
      * Return export product
      *
      * @param $id
-     * @return ProductExport|mixed|void
+     * @return Export|mixed|void
      */
     protected function getExportProduct($id)
     {

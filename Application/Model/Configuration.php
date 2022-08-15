@@ -3,6 +3,7 @@
 namespace FATCHIP\ObjectCodeK3\Application\Model;
 
 use OxidEsales\Eshop\Core\DatabaseProvider;
+use OxidEsales\Eshop\Core\Registry;
 use function oxNew;
 
 class Configuration
@@ -186,7 +187,9 @@ class Configuration
         if ($oxid) {
             return $oxid;
         }
-        throw new \Exception('No article oxid found for article number: ' . $articleNumber);
+
+        $error = Registry::getLang()->translateString('FCOBJECTCODEK3_EXCEPTION_ARTICLE_NOT_FOUND');
+        throw new \Exception(sprintf($error, $articleNumber));
     }
 
 }

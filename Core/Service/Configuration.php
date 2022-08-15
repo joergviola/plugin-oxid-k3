@@ -2,6 +2,7 @@
 
 namespace FATCHIP\ObjectCodeK3\Core\Service;
 
+use FATCHIP\ObjectCodeK3\Core\Logger;
 use FATCHIP\ObjectCodeK3\Core\Request;
 use OxidEsales\Eshop\Core\Registry;
 
@@ -11,15 +12,15 @@ class Configuration
      * Add configuration to basket
      *
      * @param $configurationId
+     * @param $basket
      * @return void
      * @throws \OxidEsales\Eshop\Core\Exception\ArticleInputException
      * @throws \OxidEsales\Eshop\Core\Exception\NoArticleException
      * @throws \OxidEsales\Eshop\Core\Exception\OutOfStockException
      */
-    public function addToBasket($configurationId)
+    public function addToBasket($configurationId, $basket)
     {
         $configuration = $this->getConfigurationModel($configurationId);
-        $basket = Registry::getSession()->getBasket();
         $basketArticles = $configuration->getBasketProducts();
         foreach ($basketArticles as $basketArticle) {
             $basketItem = $basket->addToBasket($basketArticle['id'], $basketArticle['amount'], null,
@@ -74,9 +75,11 @@ class Configuration
     {
         $configurationJson = $this->loadConfiguration($configurationId);
         $configurationObject = json_decode($configurationJson);
-        $configuration = oxNew(\FATCHIP\ObjectCodeK3\Application\Model\Configuration::class);
-        $configuration->setConfiguration($configurationObject);
-        return $configuration;
+        if ( $configurationObject instanceof \ArrayObject) {
+            $configuration = oxNew(\FATCHIP\ObjectCodeK3\Application\Model\Configuration::class);
+            $configuration->setConfiguration($configurationObject);
+            return $configuration;
+        }
     }
 
     /**
@@ -90,6 +93,8 @@ class Configuration
         if ($configuration) {
             return $configuration;
         }
+        $error = Registry::getLang()->translateString('FCOBJECTCODEK3_EXCEPTION_NO_CONFIGURATION');
+        throw new \Exception($error);
     }
 
     /**
@@ -101,6 +106,10 @@ class Configuration
      */
     public function setOrdered($configurationId, $app)
     {
-        return oxNew(Request::class)->setOrdered($configurationId, $app);
+        $response = oxNew(Request::class)->setOrdered($configurationId, $app);
+        if ( $response ) {
+            Registry::get(Logger::class)->info('set ordered result', [$response]);
+            return json_decode($response);
+        }
     }
 }

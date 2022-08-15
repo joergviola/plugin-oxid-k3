@@ -3,6 +3,7 @@
 namespace FATCHIP\ObjectCodeK3\Application\Controller;
 
 use FATCHIP\ObjectCodeK3\Application\Model\Configuration;
+use FATCHIP\ObjectCodeK3\Core\Logger;
 use FATCHIP\ObjectCodeK3\Core\Output;
 use OxidEsales\Eshop\Core\Registry;
 
@@ -27,10 +28,23 @@ class BasketController extends \OxidEsales\Eshop\Application\Controller\Frontend
         }
 
         try {
+            $basket = Registry::getSession()->getBasket();
             $service = oxNew(\FATCHIP\ObjectCodeK3\Core\Service\Configuration::class);
-            $service->addToBasket($configurationId);
+            $service->addToBasket($configurationId, $basket);
         } catch (\Exception $e) {
             \OxidEsales\Eshop\Core\Registry::getUtilsView()->addErrorToDisplay($e->getMessage());
+            Registry::get(Logger::class)->error('Could not add configuration to basket', [
+                $configurationId,
+                $e->getMessage(),
+                __METHOD__
+            ]);
+        } catch ( \Throwable $e) {
+            \OxidEsales\Eshop\Core\Registry::getUtilsView()->addErrorToDisplay($e->getMessage());
+            Registry::get(Logger::class)->error('Could not add configuration to basket', [
+                $configurationId,
+                $e->getMessage(),
+                __METHOD__
+            ]);
         }
 
         Registry::getUtils()->redirect(Registry::getConfig()->getShopHomeUrl().'cl=basket');

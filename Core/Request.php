@@ -94,12 +94,13 @@ class Request
         $statusCode = curl_getinfo($curl, CURLINFO_RESPONSE_CODE);
         curl_close($curl);
 
-        if (!$statusCode) {
-            throw new \Exception('HTTP Status Code not 200 OK: ' . $statusCode);
+        if ($statusCode != 200) {
+            $error = Registry::getLang()->translateString('FCOBJECTCODEK3_EXCEPTION_STATUS_CODE');
+            throw new \Exception(sprintf($error, $statusCode));
         }
-
         if (!$result) {
-            throw new \Exception('Configuration response is empty');
+            $error = Registry::getLang()->translateString('FCOBJECTCODEK3_EXCEPTION_NO_RESPONSE');
+            throw new \Exception($error);
         }
 
         return $result;
@@ -132,14 +133,14 @@ class Request
         $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
 
-        if (!$statusCode) {
-            throw new \Exception('HTTP Status Code not 200 OK: ' . $statusCode);
+        if ($statusCode != 200) {
+            $error = Registry::getLang()->translateString('FCOBJECTCODEK3_EXCEPTION_STATUS_CODE');
+            throw new \Exception(sprintf($error, $statusCode));
         }
-
         if (!$result) {
-            throw new \Exception('Configuration response is empty');
+            $error = Registry::getLang()->translateString('FCOBJECTCODEK3_EXCEPTION_NO_RESPONSE');
+            throw new \Exception($error);
         }
-
         return $result;
     }
 }

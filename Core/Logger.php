@@ -177,7 +177,6 @@ class Logger implements \Psr\Log\LoggerInterface
     private function initDefaultHandler()
     {
         $defaultLogFile = \OxidEsales\Eshop\Core\Registry::getConfig()->getLogsDir() . DIRECTORY_SEPARATOR . $this->logFileName;
-
         $streamHandler = new \Monolog\Handler\StreamHandler($defaultLogFile);
         $this->psrLogger->pushHandler($streamHandler);
     }

@@ -27,8 +27,16 @@ class Order extends Order_Parent
     ) // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore
     {
         try {
-            #$service = oxNew(Configuration::class);
-            #$service->setOrdered();
+            $articles = $this->getOrderArticles();
+            if ($articles) {
+                $service = oxNew(Configuration::class);
+                foreach ($articles as $orderArticle) {
+                    if ($orderArticle->oxorderarticles__fck3objectcodecfg->value && $orderArticle->oxorderarticles__fck3objectcodeapp->value) {
+                        $service->setOrdered($orderArticle->oxorderarticles__fck3objectcodecfg->value,
+                            $orderArticle->oxorderarticles__fck3objectcodeapp->value);
+                    }
+                }
+            }
         } catch (\Exception $e) {
             Registry::get(Logger::class)->error('Could not set configuration as ordered', [
                 $e->getMessage(),

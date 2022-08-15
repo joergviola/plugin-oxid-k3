@@ -3,7 +3,7 @@
 namespace FATCHIP\ObjectCodeK3\Application\Controller;
 
 use FATCHIP\ObjectCodeK3\Core\Connector;
-use FATCHIP\ObjectCodeK3\Core\Export\ProductExport;
+use FATCHIP\ObjectCodeK3\Core\Export\Export;
 use FATCHIP\ObjectCodeK3\Core\Logger;
 use FATCHIP\ObjectCodeK3\Core\Output;
 use FATCHIP\ObjectCodeK3\Core\Validation;
@@ -39,8 +39,8 @@ class ProductExportController extends \OxidEsales\Eshop\Application\Controller\F
         try {
             $connector = oxNew(Connector::class);
             $this->validateSecret($connector);
-            $export = oxNew(ProductExport::class);
-            Registry::get(Output::class)->json($export->getData(), 200);
+            $service = oxNew(Export::class);
+            Registry::get(Output::class)->json($service->getProducts(), 200);
         } catch (\Exception $e) {
             Registry::get(Logger::class)->error('Could not export articles', [
                 $e->getMessage(),
