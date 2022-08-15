@@ -21,6 +21,10 @@ class Configuration
     public function addToBasket($configurationId, $basket)
     {
         $configuration = $this->getConfigurationModel($configurationId);
+        if ( !$configuration ) {
+            $error = Registry::getLang()->translateString('FCOBJECTCODEK3_EXCEPTION_CONFIGURATION_ERROR');
+            throw new \Exception($error);
+        }
         $basketArticles = $configuration->getBasketProducts();
         foreach ($basketArticles as $basketArticle) {
             $basketItem = $basket->addToBasket($basketArticle['id'], $basketArticle['amount'], null,
@@ -75,7 +79,7 @@ class Configuration
     {
         $configurationJson = $this->loadConfiguration($configurationId);
         $configurationObject = json_decode($configurationJson);
-        if ( $configurationObject instanceof \ArrayObject) {
+        if ( $configurationObject) {
             $configuration = oxNew(\FATCHIP\ObjectCodeK3\Application\Model\Configuration::class);
             $configuration->setConfiguration($configurationObject);
             return $configuration;

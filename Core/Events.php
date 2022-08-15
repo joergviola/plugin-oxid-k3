@@ -80,7 +80,32 @@ class Events
             DatabaseProvider::getDb()->execute($queryInsert,
                 ['k3product', Registry::getConfig()->getShopId(), 'K3', 'K3', 'K3', 0]);
         }
+
+        self::addSeo('index.php?cl=fc_fcobjectcodek3_connectorcontroller', 'k3/connect/');
+        self::addSeo('index.php?cl=fc_fcobjectcodek3_basketcontroller', 'k3/cart/');
+        self::addSeo('index.php?cl=fc_fcobjectcodek3_productexportcontroller', 'k3/articles/');
     }
 
+    /**
+     * Add seo url
+     *
+     * @param $staticUrl
+     * @param $seoUrl
+     * @return void
+     */
+    protected static function addSeo($staticUrl, $seoUrl)
+    {
+        $urls = [
+            'oxseo__oxobjectid' => md5($staticUrl),
+            'oxseo__oxstdurl' => $staticUrl,
+            'oxseo__oxseourl' => [
+                0 => $seoUrl
+            ],
+        ];
+        // Shop id and language id is hardcoded to prevent multiple urls
+        // the k3 configuration only allows 1 url
+        // control over shop and language is handled over request oxid default parameters (eg. shp, lang)
+        \OxidEsales\Eshop\Core\Registry::getSeoEncoder()->encodeStaticUrls($urls, 1, 0);
+    }
 
 }
