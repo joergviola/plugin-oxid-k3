@@ -97,14 +97,9 @@ class ConnectorController extends \OxidEsales\Eshop\Application\Controller\Front
      */
     protected function getTokenAndSecret(): array
     {
-        $token = Registry::getRequest()->getRequestParameter('token');
-        $secret = Registry::getRequest()->getRequestParameter('secret');
-        if (!$token && !$secret) {
-            $data = file_get_contents("php://input");
-            $request = json_decode($data, true);
-            $token = $request['token'];
-            $secret = $request['secret'];
-        }
+        $request = json_decode(file_get_contents("php://input"), true);
+        $token = $request['token'];
+        $secret = $request['secret'];
         return [
             $token,
             $secret
