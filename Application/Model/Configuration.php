@@ -8,30 +8,23 @@ use function oxNew;
 class Configuration
 {
     /**
-     * @var string
-     */
-    protected string $configurationId = '';
-
-    /**
      * @var object
      */
     protected object $configuration;
 
     /**
-     * @return string
+     * Configuration url
+     *
+     * @var string
      */
-    public function getConfigurationId(): string
-    {
-        return $this->configurationId;
-    }
+    protected string $configurationUrl = 'https://k3.objectcode.de/?code=';
 
     /**
-     * @param string $configurationId
+     * Test configuration url
+     *
+     * @var string
      */
-    public function setConfigurationId(string $configurationId): void
-    {
-        $this->configurationId = $configurationId;
-    }
+    protected string $configurationUrlTest = 'https://k3.objectcode.de/test/?code=';
 
     /**
      * @return object
@@ -50,6 +43,53 @@ class Configuration
     }
 
     /**
+     * Return configuration url
+     *
+     * @return string
+     */
+    public function getConfigurationUrl(): string
+    {
+        if (Registry::getConfig()->getConfigParam('blFcObjectCodeK3TestMode')) {
+            return $this->configurationUrlTest;
+        }
+        return $this->configurationUrl;
+    }
+
+    /**
+     * Return configuration variables
+     *
+     * @return array
+     */
+    protected function getConfigurationVariables(): array
+    {
+        $configuration = $this->getConfiguration();
+        return $configuration->variables;
+    }
+
+    /**
+     * Return configuration products
+     *
+     * @return array
+     */
+    protected function getConfigurationProducts(): array
+    {
+        $configuration = $this->getConfiguration();
+        return $configuration->bom;
+    }
+
+    /**
+     * Return current configuration url
+     *
+     * @return string
+     */
+    protected function getCurrenConfigurationUrl(): string
+    {
+        $url = $this->getConfigurationUrl();
+        $configuration = $this->getConfiguration();
+        return $url . $configuration->code;
+    }
+
+    /**
      * Return basket articles
      *
      * @return array
@@ -57,11 +97,9 @@ class Configuration
     public function getBasketProducts(): array
     {
         $basketArticles = [];
-        $configuration = $this->getConfiguration();
-        $articles = $configuration->bom;
+        $articles = $this->getConfigurationProducts();
         foreach ($articles as $article) {
-            $basketArticles[] = $this->getBasketProduct($article, $configuration->variables);
-
+            $basketArticles[] = $this->getBasketProduct($article);
         }
         return $basketArticles;
     }
@@ -70,37 +108,68 @@ class Configuration
      * Return basket article
      *
      * @param $article
-     * @param array|null $variables
      * @return array
      */
-    protected function getBasketProduct($article, array $variables = null): array
+    protected function getBasketProduct($article): array
     {
         return [
             'id' => $this->getOxidFromArticleNumber($article->article),
             'amount' => $article->qty,
-            'params' => $this->getBasketProductParams($variables),
+            'params' => $this->getBasketProductParams(),
+            'price' => $this->getConfigurationPrice(),
         ];
+    }
+
+    /**
+     * Return configuration price
+     *
+     * @return float
+     */
+    protected function getConfigurationPrice(): float
+    {
+        $configuration = $this->getConfiguration();
+        return $configuration->price;
     }
 
     /**
      * Return persparams
      *
-     * @param $variables
      * @return array
      */
-    protected function getBasketProductParams($variables): array
+    protected function getBasketProductParams(): array
     {
+        $configuration = $this->getConfiguration();
+        $variables = $this->getConfigurationVariables();
         $params = [];
-        $params['configurationId'] = $this->getConfigurationId();
-        $params['appCode'] = 'testAppCode';
+        $params['code'] = $configuration->code;
+        $params['app'] = $configuration->app;
+        $params['url'] = $this->getCurrenConfigurationUrl();
         foreach ($variables as $variable) {
-            $params['variables'][] = [
-                'id' => $variable->variableId,
-                'label' => $variable->label,
-                'value' => $variable->value,
-            ];
+            $params['variables'][] = $this->getVariableParams($variable);
         }
         return $params;
+    }
+
+    /**
+     * Return variable params as array for persparams
+     *
+     * @param $variable
+     * @return array
+     */
+    protected function getVariableParams($variable): array
+    {
+        $label = $variable->variable->label;
+        $value = $variable->value;
+        if (isset($variable->selected) && isset($variable->selected->value)) {
+            $value = $variable->selected->value;
+            if (isset($variable->selected->label) && $variable->selected->label != '') {
+                $label = $variable->selected->label;
+            }
+        }
+        return [
+            'label' => $label,
+            'value' => $value,
+        ];
     }
 
     /**

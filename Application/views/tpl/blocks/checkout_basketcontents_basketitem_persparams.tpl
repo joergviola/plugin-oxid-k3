@@ -4,13 +4,15 @@
         <input type="hidden" name="aproducts[[{$basketindex}]][persparam][[{$sVar}]]" value="[{$aParam}]">
     [{/foreach}]
     [{foreach from=$basketitem->fcGetK3Configuration() item=aParam key=sVar}]
-        [{if $sVar == 'configurationId'}]
-            Konfiguration-ID: [{$aParam}]<br/>
-        [{elseif $sVar == 'appCode'}]
-            AppCode: [{$aParam}]<br/>
+        [{if $sVar == 'code'}]
+            Code: [{$aParam}]<br/>
+        [{elseif $sVar == 'app'}]
+            App: [{$aParam}]<br/>
+        [{elseif $sVar == 'url'}]
+            URL: <a href="[{$aParam}]" target="_blank" rel="nofollow">[{$aParam}]</a>
         [{elseif $sVar == 'variables'}]
             [{foreach from=$aParam item=variable}]
-                [{$variable.id}] [{$variable.label}] [{$variable.value}]<br/>
+                [{$variable.label}] : [{$variable.value}]<br/>
             [{/foreach}]
         [{/if}]
     [{/foreach}]

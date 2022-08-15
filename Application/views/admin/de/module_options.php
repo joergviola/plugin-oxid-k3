@@ -27,4 +27,5 @@ $aLang = [
     //config
     'SHOP_MODULE_GROUP_fcobjectcodek3'             => 'Stamm',
     'SHOP_MODULE_blFcObjectCodeK3Active'             => 'Aktiv',
+    'SHOP_MODULE_blFcObjectCodeK3TestMode'             => 'Test-Modus',
 ];

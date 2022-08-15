@@ -21,6 +21,20 @@ class Request
     protected string $orderEndpoint = 'https://k3-api.objectcode.de/api/v1.0/app/{code}/cfg/{cfg}/save-only';
 
     /**
+     * Test configuration endpoint
+     *
+     * @var string
+     */
+    protected string $configurationEndpointTest = 'https://k3-test-api.objectcode.de/api/v1.0/cfg/{cfg}/shop';
+
+    /**
+     * Test order endpoint
+     *
+     * @var string
+     */
+    protected string $orderEndpointTest = 'https://k3-test-api.objectcode.de/api/v1.0/app/{code}/cfg/{cfg}/save-only';
+
+    /**
      * Return token
      *
      * @return string
@@ -32,6 +46,32 @@ class Request
     }
 
     /**
+     * Return configuration endpoint
+     *
+     * @return string
+     */
+    protected function getConfigurationEndpoint(): string
+    {
+        if (Registry::getConfig()->getConfigParam('blFcObjectCodeK3TestMode')) {
+            return $this->configurationEndpointTest;
+        }
+        return $this->configurationEndpoint;
+    }
+
+    /**
+     * Return order endpoint
+     *
+     * @return string
+     */
+    protected function getOrderEndpoint(): string
+    {
+        if (Registry::getConfig()->getConfigParam('blFcObjectCodeK3TestMode')) {
+            return $this->orderEndpointTest;
+        }
+        return $this->orderEndpoint;
+    }
+
+    /**
      * Return configuration response
      *
      * @param $configurationId
@@ -40,7 +80,7 @@ class Request
      */
     public function getConfiguration($configurationId)
     {
-        $url = str_replace('{cfg}', $configurationId, $this->configurationEndpoint);
+        $url = str_replace('{cfg}', $configurationId, $this->getConfigurationEndpoint());
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($curl, CURLOPT_TIMEOUT, 5);
@@ -51,7 +91,7 @@ class Request
         ];
         curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
         $result = curl_exec($curl);
-        $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        $statusCode = curl_getinfo($curl, CURLINFO_RESPONSE_CODE);
         curl_close($curl);
 
         if (!$statusCode) {
@@ -69,13 +109,13 @@ class Request
      * Set configuration as ordered
      *
      * @param $configurationId
-     * @param $appCode
+     * @param $app
      * @return bool|string
      * @throws \Exception
      */
-    public function setOrdered($configurationId, $appCode)
+    public function setOrdered($configurationId, $app)
     {
-        $url = str_replace(['{code}', '{cfg}'], [$appCode, $configurationId], $this->orderEndpoint);
+        $url = str_replace(['{code}', '{cfg}'], [$app, $configurationId], $this->getOrderEndpoint());
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($curl, CURLOPT_TIMEOUT, 5);

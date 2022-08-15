@@ -34,6 +34,13 @@ $aModule = [
             'value' => true,
             'position' => 1,
         ],
+        [
+            'group' => 'fcobjectcodek3',
+            'name' => 'blFcObjectCodeK3TestMode',
+            'type' => 'bool',
+            'value' => true,
+            'position' => 10,
+        ],
     ],
     'blocks' => [
         [

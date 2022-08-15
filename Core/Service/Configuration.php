@@ -22,11 +22,45 @@ class Configuration
         $basket = Registry::getSession()->getBasket();
         $basketArticles = $configuration->getBasketProducts();
         foreach ($basketArticles as $basketArticle) {
-            $encodedConfiguration = base64_encode(serialize($basketArticle['params']));
-            $params = [
-                'k3' => $encodedConfiguration
-            ];
-            $basket->addToBasket($basketArticle['id'], $basketArticle['amount'], null, $params);
+            $basketItem = $basket->addToBasket($basketArticle['id'], $basketArticle['amount'], null,
+                $this->getFormattedParams($basketArticle['params']));
+            $this->setBasketItemPrice($basket, $basketItem, $basketArticle['price']);
+        }
+    }
+
+    /**
+     * Return formatted params
+     *
+     * @param $configurationParams
+     * @return array
+     */
+    protected function getFormattedParams($configurationParams): array
+    {
+        $encodedConfiguration = base64_encode(serialize($configurationParams));
+        return [
+            'k3' => $encodedConfiguration
+        ];
+    }
+
+    /**
+     * Set basket item price
+     *
+     * @param $basket
+     * @param $basketItem
+     * @param $price
+     * @return void
+     */
+    protected function setBasketItemPrice($basket, $basketItem, $price)
+    {
+        if ($basketItem && $price) {
+            $oPrice = oxNew(\OxidEsales\Eshop\Core\Price::class);
+            if ($basket->isCalculationModeNetto()) {
+                $oPrice->setNettoPriceMode();
+            } else {
+                $oPrice->setBruttoPriceMode();
+            }
+            $oPrice->setPrice($price);
+            $basketItem->setPrice($oPrice);
         }
     }
 
@@ -41,7 +75,6 @@ class Configuration
         $configurationJson = $this->loadConfiguration($configurationId);
         $configurationObject = json_decode($configurationJson);
         $configuration = oxNew(\FATCHIP\ObjectCodeK3\Application\Model\Configuration::class);
-        $configuration->setConfigurationId($configurationId);
         $configuration->setConfiguration($configurationObject);
         return $configuration;
     }
@@ -53,26 +86,21 @@ class Configuration
      */
     protected function loadConfiguration($configurationId)
     {
-        $rawCfg = '{
-    "variables":[
-        {"variableId":104,"value":"blue"},
-        {"variableId":105,"value":"red"}
-    ],
-    "bom":[
-        {"article":"1402","qty":1}
-
-    ]
-}';
-        return $rawCfg;
         $configuration = oxNew(Request::class)->getConfiguration($configurationId);
-        if ( $configuration ) {
+        if ($configuration) {
             return $configuration;
         }
     }
 
-    public function setOrdered($configurationId, $appCode) {
-
+    /**
+     * Set ordered state
+     *
+     * @param $configurationId
+     * @param $app
+     * @return void
+     */
+    public function setOrdered($configurationId, $app)
+    {
+        return oxNew(Request::class)->setOrdered($configurationId, $app);
     }
-
-
 }
