@@ -95,8 +95,10 @@ set to the amount given by k3.
 Logentries gets written in log/fcobjectcodek3.log.
 
 On installation the attribute "K3" with oxid (k3product) get created to control the export articles.
-Just assign the attribute, the value does not matter.
-If no attribute is assigned, all active articles get exported.
+Just assign the attribute to the articles you want to export, the value does not matter.
+If no attribute is assigned, articles get exported.
+
+Only active and buyable articles get exported.
 
 ## Author
 FATCHIP GmbH | https://www.fatchip.de | support@fatchip.de

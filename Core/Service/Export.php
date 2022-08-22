@@ -207,7 +207,9 @@ class Export
                 if (!$parentId && $varCount > 0) {
                     $products = $this->getExportProductVariants($products, $id);
                 } elseif (!in_array($id, array_keys($products))) {
-                    $products[$id] = $this->getExportProduct($id);
+                    if ( ($product = $this->getExportProduct($id)) ) {
+                        $products[$id] = $product;
+                    }
                 }
             }
         }
@@ -229,7 +231,9 @@ class Export
         if (count($variants) > 0) {
             foreach ($variants as $variantId) {
                 if (!in_array($variantId, array_keys($products))) {
-                    $products[$variantId] = $this->getExportProduct($variantId);
+                    if ( ($product = $this->getExportProduct($variantId)) ) {
+                        $products[$variantId] = $product;
+                    }
                 }
             }
         }
@@ -266,7 +270,7 @@ class Export
     protected function getExportProduct($id)
     {
         $article = oxNew(Article::class);
-        if ($article->loadInLang($this->getLangId(), $id)) {
+        if ($article->loadInLang($this->getLangId(), $id) && !$article->isNotBuyable()) {
             $exportProduct = oxNew(Product::class);
             $exportProduct->setNo($article->getFieldData('oxartnum'));
             $exportProduct->setName($article->getFieldData('oxtitle'));
