@@ -20,6 +20,8 @@ class Order extends Order_Parent
      * @return bool
      * @deprecated underscore prefix violates PSR12, will be renamed to "sendOrderByEmail" in next major
      */
+    /* @TODO add order endpoint, waiting for k3 api to be finished
+     *
     protected function _sendOrderByEmail(
         $oUser = null,
         $oBasket = null,
@@ -44,7 +46,7 @@ class Order extends Order_Parent
             ]);
         }
         return parent::_sendOrderByEmail($oUser, $oBasket, $oPayment);
-    }
+    }*/
 
     /**
      * Creates OrderArticle objects and assigns to them basket articles.

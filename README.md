@@ -73,6 +73,26 @@ vendor/bin/oe-eshop-db_migrate migrations:migrate
 vendor/bin/oe-console oe:module:activate fcobjectcodek3
 ```
 
+## Configuration
+
+### Endpoints
+On installation the required SEO endpoints get created for
+oxshopid = 1 and oxlang = 1.
+
+Endpoints:
+k3/connect/ -> used to connect via K3 backend
+k3/cart/ -> internally used by k3 to add configurations to basket
+k3/articles/ -> internally used by k3 to export articles
+
+### Module Configuration
+Through the module settings you can activate(default)/deactivate the functionality without
+disabling the module. You can also control the k3 environment through the test mode option.
+
+### Module Handling
+K3 configurations gets added via oxid persparams and basket item prices are
+set to the amount given by k3.
+
+Logentries gets written in log/fcobjectcodek3.log.
 
 ## Author
 FATCHIP GmbH | https://www.fatchip.de | support@fatchip.de
