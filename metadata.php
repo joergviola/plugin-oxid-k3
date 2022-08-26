@@ -41,6 +41,20 @@ $aModule = [
             'value' => true,
             'position' => 10,
         ],
+        [
+            'group' => 'fcobjectcodek3',
+            'name' => 'sFcObjectCodeK3AuthSecret',
+            'type' => 'str',
+            'value' => '',
+            'position' => 20,
+        ],
+        [
+            'group' => 'fcobjectcodek3',
+            'name' => 'sFcObjectCodeK3AuthToken',
+            'type' => 'str',
+            'value' => '',
+            'position' => 30,
+        ],
     ],
     'blocks' => [
         [

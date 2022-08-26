@@ -3,6 +3,9 @@
 namespace FATCHIP\ObjectCodeK3\Core;
 
 use OxidEsales\Eshop\Core\Registry;
+use OxidEsales\EshopCommunity\Internal\Container\ContainerFactory;
+use OxidEsales\EshopCommunity\Internal\Framework\Module\Configuration\Bridge\ModuleSettingBridgeInterface;
+use OxidEsales\EshopCommunity\Internal\Framework\Module\Configuration\Exception\ModuleSettingNotFountException;
 
 class Connector
 {
@@ -32,43 +35,12 @@ class Connector
     protected string $connectorUrl = '';
 
     /**
-     * Shop id
-     *
-     * @var int
-     */
-    protected int $shopId = 1;
-
-    /**
-     * load secret and token
-     */
-    public function __construct()
-    {
-        $this->shopId = Registry::getConfig()->getShopId();
-    }
-
-    /**
-     * @return int
-     */
-    public function getShopId(): int
-    {
-        return $this->shopId;
-    }
-
-    /**
-     * @param int $shopId
-     */
-    public function setShopId(int $shopId): void
-    {
-        $this->shopId = $shopId;
-    }
-
-    /**
      * @return string
      */
     public function getToken(): string
     {
         if (!$this->token) {
-            $token = Registry::getConfig()->getShopConfVar('sFcObjectCodeK3AuthToken', $this->getShopId(), 'module:fcobjectcodek3');
+            $token = Registry::getConfig()->getConfigParam('sFcObjectCodeK3AuthToken');
             if ($token) {
                 $this->token = $token;
             }
@@ -90,7 +62,7 @@ class Connector
     public function getSecret(): string
     {
         if (!$this->secret) {
-            $secret = Registry::getConfig()->getShopConfVar('sFcObjectCodeK3AuthSecret', $this->getShopId(), 'module:fcobjectcodek3');
+            $secret = Registry::getConfig()->getConfigParam('sFcObjectCodeK3AuthSecret');
             if ($secret) {
                 $this->secret = $secret;
             }
@@ -186,11 +158,29 @@ class Connector
      */
     public function save(): bool
     {
-        Registry::getConfig()->saveShopConfVar('str', 'sFcObjectCodeK3AuthSecret', $this->getSecret(),
-            $this->getShopId(),
-            'module:fcobjectcodek3');
-        Registry::getConfig()->saveShopConfVar('str', 'sFcObjectCodeK3AuthToken', $this->getToken(), $this->getShopId(),
-            'module:fcobjectcodek3');
+        $moduleSettingBridge = ContainerFactory::getInstance()
+            ->getContainer()
+            ->get(ModuleSettingBridgeInterface::class);
+
+        $moduleSettingBridge->save('sFcObjectCodeK3AuthSecret', $this->getSecret(), 'fcobjectcodek3');
+        $moduleSettingBridge->save('sFcObjectCodeK3AuthToken', $this->getToken(), 'fcobjectcodek3');
+
+        $secret = $moduleSettingBridge->get('sFcObjectCodeK3AuthSecret', 'fcobjectcodek3');
+        $token = $moduleSettingBridge->get('sFcObjectCodeK3AuthToken', 'fcobjectcodek3');
+
+        if (!$secret || !$token) {
+            //reset values in db
+            Registry::getConfig()->saveShopConfVar('str', 'sFcObjectCodeK3AuthSecret', null,
+                Registry::getConfig()->getShopId(),
+                'module:fcobjectcodek3');
+
+            Registry::getConfig()->saveShopConfVar('str', 'sFcObjectCodeK3AuthToken', null,
+                Registry::getConfig()->getShopId(),
+                'module:fcobjectcodek3');
+
+            throw new \Exception('Could not save secret and token');
+        }
+
         return true;
     }
 
