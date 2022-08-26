@@ -27,6 +27,7 @@ $aLang = [
     'FCOBJECTCODEK3_EXCEPTION_STATUS_CODE' => "Es gab ein Problem bei der Verbindung zur K3 Schnittstelle.",
     'FCOBJECTCODEK3_EXCEPTION_NO_RESPONSE' => 'Die Abfrage hatte kein Response.',
     'FCOBJECTCODEK3_EXCEPTION_ARTICLE_NOT_FOUND' => "Artikel nicht gefunden: %s",
+    'FCOBJECTCODEK3_EXCEPTION_ARTICLE_NO_VALID_AMOUNT' => "Bitte benutzen Sie den Konfigurator um die Menge zu ändern.",
     'FCOBJECTCODEK3_EXCEPTION_NO_CONFIGURATION' => 'Die Konfiguration konnte nicht von K3 geladen werden.',
     'FCOBJECTCODEK3_EXCEPTION_CONFIGURATION_ERROR'   => 'Die Konfiguration ist fehlerhaft.',
     'FCOBJECTCODEK3_BASKET_LINK'                => 'zur Konfiguration',

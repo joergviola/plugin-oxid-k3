@@ -113,10 +113,14 @@ class Configuration
      */
     protected function getBasketProduct($article): array
     {
+        $params = $this->getBasketProductParams();
+        $params['id'] = $this->getOxidFromArticleNumber($article->article);
+        $params['amount'] = $article->qty;
+        $params['price'] = $this->getConfigurationPrice();
         return [
             'id' => $this->getOxidFromArticleNumber($article->article),
             'amount' => $article->qty,
-            'params' => $this->getBasketProductParams(),
+            'params' => $params,
             'price' => $this->getConfigurationPrice(),
         ];
     }
@@ -145,6 +149,7 @@ class Configuration
         $params['code'] = $configuration->code;
         $params['app'] = $configuration->app;
         $params['url'] = $this->getCurrenConfigurationUrl();
+        $params['price'] = $this->getConfigurationPrice();
         foreach ($variables as $variable) {
             $params['variables'][] = $this->getVariableParams($variable);
         }
