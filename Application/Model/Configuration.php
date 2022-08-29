@@ -18,14 +18,14 @@ class Configuration
      *
      * @var string
      */
-    protected string $configurationUrl = 'https://k3.objectcode.de/?code=';
+    protected string $configurationUrl = 'https://k3.objectcode.de/app/?code=';
 
     /**
      * Test configuration url
      *
      * @var string
      */
-    protected string $configurationUrlTest = 'https://k3.objectcode.de/test/?code=';
+    protected string $configurationUrlTest = 'https://k3.objectcode.de/test/app/?code=';
 
     /**
      * @return object
