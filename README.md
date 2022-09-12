@@ -11,21 +11,19 @@ An oxid module to integrate K3 configurator from ObjectCode
    "repositories": [
       {
         "type": "vcs",
-        "url": "https://github.com/FATCHIP-GmbH/plugin-oxid-k3"
+        "url": "https://github.com/OC-Git/plugin-oxid-k3"
       }
     ]
   ```
   -  command line
   ```
-  composer config repositories.fatchip-gmbh/plugin-oxid-k3 vcs https://github.com/FATCHIP-GmbH/plugin-oxid-k3
+  composer config repositories.fatchip-gmbh/plugin-oxid-k3 vcs https://github.com/OC-Git/plugin-oxid-k3
   ```
-
-- Generate a github token with access to the FATCHIP-GmbH/plugin-oxid-k3 repository
-- execute the following command in the base folder (where the composer.json file is located)
+  
+- execute the following command in the shop base folder (where the composer.json file is located)
 ```
 composer require fatchip-gmbh/plugin-oxid-k3 --update-no-dev
 ```
-- enter token to authenticate
 - execute database migrations
 ```
 vendor/bin/oe-eshop-db_migrate migrations:migrate
@@ -37,7 +35,7 @@ vendor/bin/oe-console oe:module:activate fcobjectcodek3
 
 ## Manual Installation
 - Copy the content into source/modules of the shop installation
-- In the composer.json file in the base folder of the shop add the autoload configuration or extend if already existing:
+- In the composer.json file in the shop base folder add the autoload configuration or extend if already existing:
 
 ```
 "autoload": {
