@@ -43,8 +43,8 @@ class ConnectorController extends \OxidEsales\Eshop\Application\Controller\Front
             $connector->setSecret($secret);
             if ($connector->save()) {
                 $output = [
-                    'cart' => $connector->getBasketUrl(),
-                    'articles' => $connector->getProductExportUrl()
+                    'cart' => html_entity_decode($connector->getBasketUrl()),
+                    'articles' => html_entity_decode($connector->getProductExportUrl())
                 ];
                 Registry::get(Output::class)->json($output);
             }
