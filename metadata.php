@@ -11,7 +11,7 @@ $aModule = [
     'description' => [
         'de' => 'Integration von K3 Objectcode',
     ],
-    'version' => '1.0.0',
+    'version' => '1.0.2',
     'author' => 'FATCHIP GmbH',
     'email' => 'support@fatchip.de',
     'url' => '',
