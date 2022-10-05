@@ -81,9 +81,9 @@ class Events
                 ['k3product', Registry::getConfig()->getShopId(), 'K3', 'K3', 'K3', 0]);
         }
 
-        self::addSeo('index.php?cl=oc_ock3_connectorcontroller', 'k3/connect/');
-        self::addSeo('index.php?cl=oc_ock3_basketcontroller', 'k3/cart/');
-        self::addSeo('index.php?cl=oc_ock3_productexportcontroller', 'k3/articles/');
+        self::addSeo('index.php?cl=oc_ock3_connectorcontroller&shp=1&lang=0', 'k3/connect/');
+        self::addSeo('index.php?cl=oc_ock3_basketcontroller&shp=1&lang=0', 'k3/cart/');
+        self::addSeo('index.php?cl=oc_ock3_productexportcontroller&shp=1&lang=0', 'k3/articles/');
     }
 
     /**
