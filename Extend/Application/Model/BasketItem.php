@@ -33,28 +33,4 @@ class BasketItem extends BasketItem_Parent
         }
         return [];
     }
-
-    /**
-     * Sets item amount and weight which depends on amount
-     * ( oxbasketitem::dAmount, oxbasketitem::dWeight )
-     *
-     * @param double $dAmount amount
-     * @param bool $blOverride Whether to override current amount.
-     * @param string $sItemKey item key
-     *
-     * @throws oxArticleInputException
-     * @throws oxOutOfStockException
-     */
-    public function setAmount($dAmount, $blOverride = true, $sItemKey = null)
-    {
-        $configuration = $this->ocGetK3Configuration();
-        if ($configuration && isset($configuration['amount']) && $dAmount != $configuration['amount']) {
-            $exception = oxNew(ArticleInputException::class);
-            $exception->setMessage(\OxidEsales\Eshop\Core\Registry::getLang()->translateString('OC_K3_EXCEPTION_ARTICLE_NO_VALID_AMOUNT'));
-            $exception->setArticleNr($this->getProductId());
-            $exception->setProductId($this->getProductId());
-            throw $exception;
-        }
-        return parent::setAmount($dAmount, $blOverride, $sItemKey);
-    }
 }
