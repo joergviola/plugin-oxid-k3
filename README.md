@@ -34,7 +34,8 @@ vendor/bin/oe-console oe:module:activate ock3
 ```
 
 ## Manual Installation
-- Copy the content into source/modules of the shop installation
+- Copy the content to the directory source/modules/oc/k3 of the shop installation
+  - the structure should be than source/modules/oc/k3/Application/, source/modules/oc/k3/Core ....
 - In the composer.json file in the shop base folder add the autoload configuration or extend if already existing:
 
 ```
