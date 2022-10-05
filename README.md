@@ -41,7 +41,7 @@ vendor/bin/oe-console oe:module:activate ock3
 ```
 "autoload": {
    "psr-4": {
-      "ObjectCode\\K3\\": "../../../source/modules/oc/k3"
+      "ObjectCode\\K3\\": "./source/modules/oc/k3"
    }
 }
 
