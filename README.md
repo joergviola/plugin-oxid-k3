@@ -87,6 +87,9 @@ k3/articles/ -> internally used by k3 to export articles
 Please check that your configured language shop matches with the language and shop
 defined for the default seo urls. If not create new matching seo urls via the OXID admin SEO tab.
 
+eg.
+index.php?cl=oc_ock3_connectorcontroller&shp=1&lang=1 -> en/k3/connect/
+
 ### Module Configuration
 Through the module settings you can activate(default)/deactivate the functionality without
 disabling the module. You can also control the k3 environment through the test mode option.
