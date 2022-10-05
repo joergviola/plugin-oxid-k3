@@ -38,7 +38,7 @@ $aModule = [
             'group' => 'ock3',
             'name' => 'blOcK3TestMode',
             'type' => 'bool',
-            'value' => true,
+            'value' => false,
             'position' => 10,
         ],
         [
