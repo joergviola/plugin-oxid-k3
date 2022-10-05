@@ -1,9 +1,9 @@
 <?php
 
-namespace FATCHIP\ObjectCodeK3\Core\Service;
+namespace ObjectCode\K3\Core\Service;
 
-use FATCHIP\ObjectCodeK3\Application\Model\Export\Price;
-use FATCHIP\ObjectCodeK3\Application\Model\Export\Product;
+use ObjectCode\K3\Application\Model\Export\Price;
+use ObjectCode\K3\Application\Model\Export\Product;
 use OxidEsales\Eshop\Application\Model\Article;
 use OxidEsales\Eshop\Core\DatabaseProvider;
 use OxidEsales\Eshop\Core\Registry;

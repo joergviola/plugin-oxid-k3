@@ -1,12 +1,12 @@
 <?php
 
-namespace FATCHIP\ObjectCodeK3\Application\Controller;
+namespace ObjectCode\K3\Application\Controller;
 
-use FATCHIP\ObjectCodeK3\Core\Connector;
-use FATCHIP\ObjectCodeK3\Core\Logger;
-use FATCHIP\ObjectCodeK3\Core\Output;
-use FATCHIP\ObjectCodeK3\Core\Service\Export;
-use FATCHIP\ObjectCodeK3\Core\Validation;
+use ObjectCode\K3\Core\Connector;
+use ObjectCode\K3\Core\Logger;
+use ObjectCode\K3\Core\Output;
+use ObjectCode\K3\Core\Service\Export;
+use ObjectCode\K3\Core\Validation;
 use OxidEsales\Eshop\Core\Registry;
 
 class ProductExportController extends \OxidEsales\Eshop\Application\Controller\FrontendController
@@ -20,7 +20,7 @@ class ProductExportController extends \OxidEsales\Eshop\Application\Controller\F
      */
     public function render()
     {
-        if (!Registry::getConfig()->getConfigParam('blFcObjectCodeK3Active')) {
+        if (!Registry::getConfig()->getConfigParam('blOcK3Active')) {
             Registry::get(Output::class)->json(['message' => 'Module not active.'], 503);
         }
 

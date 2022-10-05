@@ -1,6 +1,6 @@
 <?php
 
-namespace FATCHIP\ObjectCodeK3\Core;
+namespace ObjectCode\K3\Core;
 
 use OxidEsales\Eshop\Core\Registry;
 
@@ -15,7 +15,7 @@ class Logger implements \Psr\Log\LoggerInterface
      *
      * @var string
      */
-    protected string $logFileName = 'fcobjectcodek3.log';
+    protected string $logFileName = 'ock3.log';
 
     /**
      * logger object
@@ -29,7 +29,7 @@ class Logger implements \Psr\Log\LoggerInterface
      */
     public function __construct()
     {
-        $this->psrLogger = new \Monolog\Logger('FCK3');
+        $this->psrLogger = new \Monolog\Logger('OCK3');
     }
 
     /**

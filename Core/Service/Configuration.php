@@ -1,9 +1,9 @@
 <?php
 
-namespace FATCHIP\ObjectCodeK3\Core\Service;
+namespace ObjectCode\K3\Core\Service;
 
-use FATCHIP\ObjectCodeK3\Core\Logger;
-use FATCHIP\ObjectCodeK3\Core\Request;
+use ObjectCode\K3\Core\Logger;
+use ObjectCode\K3\Core\Request;
 use OxidEsales\Eshop\Core\Registry;
 
 class Configuration
@@ -22,7 +22,7 @@ class Configuration
     {
         $configuration = $this->getConfigurationModel($configurationId);
         if ( !$configuration ) {
-            $error = Registry::getLang()->translateString('FCOBJECTCODEK3_EXCEPTION_CONFIGURATION_ERROR');
+            $error = Registry::getLang()->translateString('OC_K3_EXCEPTION_CONFIGURATION_ERROR');
             throw new \Exception($error);
         }
         $basketArticles = $configuration->getBasketProducts();
@@ -73,14 +73,14 @@ class Configuration
      * Create configuration model
      *
      * @param $configurationId
-     * @return \FATCHIP\ObjectCodeK3\Application\Model\Configuration|mixed
+     * @return \ObjectCode\K3\Application\Model\Configuration|mixed
      */
     protected function getConfigurationModel($configurationId)
     {
         $configurationJson = $this->loadConfiguration($configurationId);
         $configurationObject = json_decode($configurationJson);
         if ( $configurationObject) {
-            $configuration = oxNew(\FATCHIP\ObjectCodeK3\Application\Model\Configuration::class);
+            $configuration = oxNew(\ObjectCode\K3\Application\Model\Configuration::class);
             $configuration->setConfiguration($configurationObject);
             return $configuration;
         }
@@ -97,7 +97,7 @@ class Configuration
         if ($configuration) {
             return $configuration;
         }
-        $error = Registry::getLang()->translateString('FCOBJECTCODEK3_EXCEPTION_NO_CONFIGURATION');
+        $error = Registry::getLang()->translateString('OC_K3_EXCEPTION_NO_CONFIGURATION');
         throw new \Exception($error);
     }
 

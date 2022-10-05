@@ -1,6 +1,6 @@
 <?php
 
-namespace FATCHIP\ObjectCodeK3\Application\Model\Export;
+namespace ObjectCode\K3\Application\Model\Export;
 
 class Price
 {

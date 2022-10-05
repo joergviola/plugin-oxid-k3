@@ -1,6 +1,6 @@
 <?php
 
-namespace FATCHIP\ObjectCodeK3\Core;
+namespace ObjectCode\K3\Core;
 
 class Validation
 {

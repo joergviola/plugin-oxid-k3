@@ -1,6 +1,6 @@
 <?php
 
-namespace FATCHIP\ObjectCodeK3\Extend\Application\Model;
+namespace ObjectCode\K3\Extend\Application\Model;
 
 use OxidEsales\Eshop\Core\Exception\ArticleInputException;
 
@@ -11,9 +11,9 @@ class BasketItem extends BasketItem_Parent
      *
      * @return bool
      */
-    public function fcHasK3Configuration(): bool
+    public function ocHasK3Configuration(): bool
     {
-        $params = $this->fcGetK3Configuration();
+        $params = $this->ocGetK3Configuration();
         if ($params && count($params) > 0) {
             return true;
         }
@@ -25,7 +25,7 @@ class BasketItem extends BasketItem_Parent
      *
      * @return array
      */
-    public function fcGetK3Configuration()
+    public function ocGetK3Configuration()
     {
         $params = $this->getPersParams();
         if ($params && isset($params['k3'])) {
@@ -47,10 +47,10 @@ class BasketItem extends BasketItem_Parent
      */
     public function setAmount($dAmount, $blOverride = true, $sItemKey = null)
     {
-        $configuration = $this->fcGetK3Configuration();
+        $configuration = $this->ocGetK3Configuration();
         if ($configuration && isset($configuration['amount']) && $dAmount != $configuration['amount']) {
             $exception = oxNew(ArticleInputException::class);
-            $exception->setMessage(\OxidEsales\Eshop\Core\Registry::getLang()->translateString('FCOBJECTCODEK3_EXCEPTION_ARTICLE_NO_VALID_AMOUNT'));
+            $exception->setMessage(\OxidEsales\Eshop\Core\Registry::getLang()->translateString('OC_K3_EXCEPTION_ARTICLE_NO_VALID_AMOUNT'));
             $exception->setArticleNr($this->getProductId());
             $exception->setProductId($this->getProductId());
             throw $exception;

@@ -1,10 +1,10 @@
 <?php
 
-namespace FATCHIP\ObjectCodeK3\Application\Controller;
+namespace ObjectCode\K3\Application\Controller;
 
-use FATCHIP\ObjectCodeK3\Application\Model\Configuration;
-use FATCHIP\ObjectCodeK3\Core\Logger;
-use FATCHIP\ObjectCodeK3\Core\Output;
+use ObjectCode\K3\Application\Model\Configuration;
+use ObjectCode\K3\Core\Logger;
+use ObjectCode\K3\Core\Output;
 use OxidEsales\Eshop\Core\Registry;
 
 class BasketController extends \OxidEsales\Eshop\Application\Controller\FrontendController
@@ -18,7 +18,7 @@ class BasketController extends \OxidEsales\Eshop\Application\Controller\Frontend
      */
     public function render()
     {
-        if (!Registry::getConfig()->getConfigParam('blFcObjectCodeK3Active')) {
+        if (!Registry::getConfig()->getConfigParam('blOcK3Active')) {
             Registry::get(Output::class)->json(['message' => 'Module not active.'], 503);
         }
 
@@ -29,7 +29,7 @@ class BasketController extends \OxidEsales\Eshop\Application\Controller\Frontend
 
         try {
             $basket = Registry::getSession()->getBasket();
-            $service = oxNew(\FATCHIP\ObjectCodeK3\Core\Service\Configuration::class);
+            $service = oxNew(\ObjectCode\K3\Core\Service\Configuration::class);
             $service->addToBasket($configurationId, $basket);
         } catch (\Exception $e) {
             \OxidEsales\Eshop\Core\Registry::getUtilsView()->addErrorToDisplay($e->getMessage());

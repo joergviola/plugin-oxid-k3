@@ -1,6 +1,6 @@
 <?php
 
-namespace FATCHIP\ObjectCodeK3\Core;
+namespace ObjectCode\K3\Core;
 
 use OxidEsales\Eshop\Application\Model\Shop;
 use OxidEsales\Eshop\Core\DatabaseProvider;
@@ -81,9 +81,9 @@ class Events
                 ['k3product', Registry::getConfig()->getShopId(), 'K3', 'K3', 'K3', 0]);
         }
 
-        self::addSeo('index.php?cl=fc_fcobjectcodek3_connectorcontroller', 'k3/connect/');
-        self::addSeo('index.php?cl=fc_fcobjectcodek3_basketcontroller', 'k3/cart/');
-        self::addSeo('index.php?cl=fc_fcobjectcodek3_productexportcontroller', 'k3/articles/');
+        self::addSeo('index.php?cl=oc_ock3_connectorcontroller', 'k3/connect/');
+        self::addSeo('index.php?cl=oc_ock3_basketcontroller', 'k3/cart/');
+        self::addSeo('index.php?cl=oc_ock3_productexportcontroller', 'k3/articles/');
     }
 
     /**

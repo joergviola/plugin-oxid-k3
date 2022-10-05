@@ -1,10 +1,10 @@
 <?php
 
-namespace FATCHIP\ObjectCodeK3\Extend\Application\Model;
+namespace ObjectCode\K3\Extend\Application\Model;
 
 
-use FATCHIP\ObjectCodeK3\Core\Logger;
-use FATCHIP\ObjectCodeK3\Core\Service\Configuration;
+use ObjectCode\K3\Core\Logger;
+use ObjectCode\K3\Core\Service\Configuration;
 use OxidEsales\Eshop\Core\Field;
 use OxidEsales\Eshop\Core\Registry;
 
@@ -33,9 +33,9 @@ class Order extends Order_Parent
             if ($articles) {
                 $service = oxNew(Configuration::class);
                 foreach ($articles as $orderArticle) {
-                    if ($orderArticle->oxorderarticles__fck3objectcodecfg->value && $orderArticle->oxorderarticles__fck3objectcodeapp->value) {
-                        $service->setOrdered($orderArticle->oxorderarticles__fck3objectcodecfg->value,
-                            $orderArticle->oxorderarticles__fck3objectcodeapp->value);
+                    if ($orderArticle->oxorderarticles__ock3cfg->value && $orderArticle->oxorderarticles__ock3codeapp->value) {
+                        $service->setOrdered($orderArticle->oxorderarticles__ock3cfg->value,
+                            $orderArticle->oxorderarticles__ock3codeapp->value);
                     }
                 }
             }
@@ -61,7 +61,7 @@ class Order extends Order_Parent
 
         try {
             if ($this->_oArticles) {
-                $this->fcSetK3Configuration($this->_oArticles);
+                $this->ocSetK3Configuration($this->_oArticles);
             }
         } catch (\Exception $e) {
             Registry::get(Logger::class)->error('Error while trying to add data to oxorderarticles', [
@@ -79,7 +79,7 @@ class Order extends Order_Parent
      * @param $articles
      * @return void
      */
-    protected function fcSetK3Configuration($articles)
+    protected function ocSetK3Configuration($articles)
     {
         if ($articles) {
             foreach ($articles as $key => $orderArticle) {
@@ -88,8 +88,8 @@ class Order extends Order_Parent
                     if ($params && isset($params['k3'])) {
                         $configuration = unserialize(base64_decode($params['k3']));
                         if ($configuration && isset($configuration['configurationId']) && $configuration['appCode']) {
-                            $articles[$key]->oxorderarticles__fck3objectcodecfg = new Field($configuration['configurationId']);
-                            $articles[$key]->oxorderarticles__fck3objectcodeapp = new Field($configuration['appCode']);
+                            $articles[$key]->oxorderarticles__ock3cfg = new Field($configuration['configurationId']);
+                            $articles[$key]->oxorderarticles__ock3codeapp = new Field($configuration['appCode']);
                         } else {
                             Registry::get(Logger::class)->error('Could not save configuration on order article', [
                                 __METHOD__,

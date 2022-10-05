@@ -30,7 +30,7 @@ vendor/bin/oe-eshop-db_migrate migrations:migrate
 ```
 - activate the module after the composer install is finished
 ```
-vendor/bin/oe-console oe:module:activate fcobjectcodek3
+vendor/bin/oe-console oe:module:activate ock3
 ```
 
 ## Manual Installation
@@ -40,7 +40,7 @@ vendor/bin/oe-console oe:module:activate fcobjectcodek3
 ```
 "autoload": {
    "psr-4": {
-        "FATCHIP\\ObjectCodeK3\\": "./source/modules/fc/fcobjectcodek3",
+        "FATCHIP\\ObjectCodeK3\\": "./source/modules/oc/k3",
    }
 }
 
@@ -53,7 +53,7 @@ vendor/bin/composer dump-autoload
 
 - install oxid module configuration
 ```
-vendor/bin/oe-console oe:module:install-configuration source/modules/fc/fcobjectcodek3
+vendor/bin/oe-console oe:module:install-configuration source/modules/oc/k3
 ```
 
 - apply oxid module configuration
@@ -68,7 +68,7 @@ vendor/bin/oe-eshop-db_migrate migrations:migrate
 
 - activate oxid module
 ```
-vendor/bin/oe-console oe:module:activate fcobjectcodek3
+vendor/bin/oe-console oe:module:activate ock3
 ```
 
 ## Configuration
@@ -90,7 +90,7 @@ disabling the module. You can also control the k3 environment through the test m
 K3 configurations gets added via oxid persparams and basket item prices are
 set to the amount given by k3.
 
-Logentries gets written in log/fcobjectcodek3.log.
+Logentries gets written in log/ock3.log.
 
 On installation the attribute "K3" with oxid (k3product) get created to control the export articles.
 Just assign the attribute to the articles you want to export, the value does not matter.
