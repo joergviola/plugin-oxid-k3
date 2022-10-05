@@ -11,7 +11,7 @@ $aModule = [
     'description' => [
         'de' => 'Integration von Objectcode K3',
     ],
-    'version' => '1.0.2',
+    'version' => '1.0.3',
     'author' => 'ObjectCode GmbH',
     'email' => 'info@objectcode.de',
     'url' => '',
