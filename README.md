@@ -49,7 +49,7 @@ vendor/bin/oe-console oe:module:activate ock3
 
 - Connect to the webserver with a console, navigate to the shop base folder and execute the following command:
 ```
-vendor/bin/composer dump-autoload
+composer dump-autoload
 ```
 
 - install oxid module configuration
@@ -74,23 +74,6 @@ vendor/bin/oe-console oe:module:activate ock3
 
 ## Configuration
 
-### Endpoints
-On installation the required SEO endpoints get created for
-oxshopid = 1 and oxlang = 0.
-
-eg. index.php?cl=oc_ock3_connectorcontroller&shp=1&lang=0 -> k3/connect/
-
-Endpoints:
-k3/connect/ -> used to connect via K3 backend
-k3/cart/ -> internally used by k3 to add configurations to basket
-k3/articles/ -> internally used by k3 to export articles
-
-Please check that your configured language shop matches with the language and shop
-defined for the default seo urls. If not create new matching seo urls via the OXID admin SEO tab.
-
-eg.
-index.php?cl=oc_ock3_connectorcontroller&shp=1&lang=1 -> en/k3/connect/
-
 ### Module Configuration
 Through the module settings you can activate(default)/deactivate the functionality without
 disabling the module. You can also control the k3 environment through the test mode option.
@@ -106,6 +89,13 @@ Just assign the attribute to the articles you want to export, the value does not
 If no attribute is assigned, articles get exported.
 
 Only active and buyable articles get exported.
+
+## Infos
+
+### Endpoints used by ObjectCode K3
+- connector: ``index.php?cl=oc_ock3_connectorcontroller``
+- cart: ``index.php?cl=oc_ock3_basketcontroller``
+- export: ``index.php?cl=oc_ock3_productexportcontroller``
 
 ## Author
 ObjectCode GmbH  | www.objectcode.de | info@objectcode.de

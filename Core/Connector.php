@@ -144,10 +144,7 @@ class Connector
      */
     protected function getControllerUrl($controller): string
     {
-        $url = Registry::getSeoEncoder()->getStaticUrl(Registry::getConfig()->getShopHomeUrl() . 'cl=' . $controller);
-        if (!$url) {
-            $url = Registry::getConfig()->getShopHomeUrl() . 'cl=' . $controller;
-        }
+        $url = Registry::getConfig()->getShopHomeUrl() . 'cl=' . $controller;
         return Registry::getUtilsUrl()->cleanUrl($url, ['force_sid', 'sid']);
     }
 
