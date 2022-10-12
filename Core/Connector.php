@@ -1,6 +1,6 @@
 <?php
 
-namespace FATCHIP\ObjectCodeK3\Core;
+namespace ObjectCode\K3\Core;
 
 use OxidEsales\Eshop\Core\Registry;
 use OxidEsales\EshopCommunity\Internal\Container\ContainerFactory;
@@ -40,7 +40,7 @@ class Connector
     public function getToken(): string
     {
         if (!$this->token) {
-            $token = Registry::getConfig()->getConfigParam('sFcObjectCodeK3AuthToken');
+            $token = Registry::getConfig()->getConfigParam('sOcK3AuthToken');
             if ($token) {
                 $this->token = $token;
             }
@@ -62,7 +62,7 @@ class Connector
     public function getSecret(): string
     {
         if (!$this->secret) {
-            $secret = Registry::getConfig()->getConfigParam('sFcObjectCodeK3AuthSecret');
+            $secret = Registry::getConfig()->getConfigParam('sOcK3AuthSecret');
             if ($secret) {
                 $this->secret = $secret;
             }
@@ -84,7 +84,7 @@ class Connector
     public function getBasketUrl(): string
     {
         if (!$this->basketUrl) {
-            $this->basketUrl = $this->getControllerUrl('fc_fcobjectcodek3_basketcontroller');
+            $this->basketUrl = $this->getControllerUrl('oc_ock3_basketcontroller');
         }
         return $this->basketUrl;
     }
@@ -103,7 +103,7 @@ class Connector
     public function getProductExportUrl(): string
     {
         if (!$this->productExportUrl) {
-            $this->productExportUrl = $this->getControllerUrl('fc_fcobjectcodek3_productexportcontroller');
+            $this->productExportUrl = $this->getControllerUrl('oc_ock3_productexportcontroller');
         }
 
         return $this->productExportUrl;
@@ -123,7 +123,7 @@ class Connector
     public function getConnectorUrl(): string
     {
         if (!$this->connectorUrl) {
-            $this->connectorUrl = $this->getControllerUrl('fc_fcobjectcodek3_connectorcontroller');
+            $this->connectorUrl = $this->getControllerUrl('oc_ock3_connectorcontroller');
         }
         return $this->connectorUrl;
     }
@@ -144,10 +144,7 @@ class Connector
      */
     protected function getControllerUrl($controller): string
     {
-        $url = Registry::getSeoEncoder()->getStaticUrl(Registry::getConfig()->getShopHomeUrl() . 'cl=' . $controller);
-        if (!$url) {
-            $url = Registry::getConfig()->getShopHomeUrl() . 'cl=' . $controller;
-        }
+        $url = Registry::getConfig()->getShopHomeUrl() . 'cl=' . $controller;
         return Registry::getUtilsUrl()->cleanUrl($url, ['force_sid', 'sid']);
     }
 
@@ -162,21 +159,21 @@ class Connector
             ->getContainer()
             ->get(ModuleSettingBridgeInterface::class);
 
-        $moduleSettingBridge->save('sFcObjectCodeK3AuthSecret', $this->getSecret(), 'fcobjectcodek3');
-        $moduleSettingBridge->save('sFcObjectCodeK3AuthToken', $this->getToken(), 'fcobjectcodek3');
+        $moduleSettingBridge->save('sOcK3AuthSecret', $this->getSecret(), 'ock3');
+        $moduleSettingBridge->save('sOcK3AuthToken', $this->getToken(), 'ock3');
 
-        $secret = $moduleSettingBridge->get('sFcObjectCodeK3AuthSecret', 'fcobjectcodek3');
-        $token = $moduleSettingBridge->get('sFcObjectCodeK3AuthToken', 'fcobjectcodek3');
+        $secret = $moduleSettingBridge->get('sOcK3AuthSecret', 'ock3');
+        $token = $moduleSettingBridge->get('sOcK3AuthToken', 'ock3');
 
         if (!$secret || !$token) {
             //reset values in db
-            Registry::getConfig()->saveShopConfVar('str', 'sFcObjectCodeK3AuthSecret', null,
+            Registry::getConfig()->saveShopConfVar('str', 'sOcK3AuthSecret', null,
                 Registry::getConfig()->getShopId(),
-                'module:fcobjectcodek3');
+                'module:ock3');
 
-            Registry::getConfig()->saveShopConfVar('str', 'sFcObjectCodeK3AuthToken', null,
+            Registry::getConfig()->saveShopConfVar('str', 'sOcK3AuthToken', null,
                 Registry::getConfig()->getShopId(),
-                'module:fcobjectcodek3');
+                'module:ock3');
 
             throw new \Exception('Could not save secret and token');
         }

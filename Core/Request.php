@@ -1,6 +1,6 @@
 <?php
 
-namespace FATCHIP\ObjectCodeK3\Core;
+namespace ObjectCode\K3\Core;
 
 use OxidEsales\Eshop\Core\Registry;
 
@@ -52,7 +52,7 @@ class Request
      */
     protected function getConfigurationEndpoint(): string
     {
-        if (Registry::getConfig()->getConfigParam('blFcObjectCodeK3TestMode')) {
+        if (Registry::getConfig()->getConfigParam('blOcK3TestMode')) {
             return $this->configurationEndpointTest;
         }
         return $this->configurationEndpoint;
@@ -65,7 +65,7 @@ class Request
      */
     protected function getOrderEndpoint(): string
     {
-        if (Registry::getConfig()->getConfigParam('blFcObjectCodeK3TestMode')) {
+        if (Registry::getConfig()->getConfigParam('blOcK3TestMode')) {
             return $this->orderEndpointTest;
         }
         return $this->orderEndpoint;
@@ -95,11 +95,11 @@ class Request
         curl_close($curl);
 
         if ($statusCode != 200) {
-            $error = Registry::getLang()->translateString('FCOBJECTCODEK3_EXCEPTION_STATUS_CODE');
+            $error = Registry::getLang()->translateString('OC_K3_EXCEPTION_STATUS_CODE');
             throw new \Exception(sprintf($error, $statusCode));
         }
         if (!$result) {
-            $error = Registry::getLang()->translateString('FCOBJECTCODEK3_EXCEPTION_NO_RESPONSE');
+            $error = Registry::getLang()->translateString('OC_K3_EXCEPTION_NO_RESPONSE');
             throw new \Exception($error);
         }
 
@@ -134,11 +134,11 @@ class Request
         curl_close($curl);
 
         if ($statusCode != 200) {
-            $error = Registry::getLang()->translateString('FCOBJECTCODEK3_EXCEPTION_STATUS_CODE');
+            $error = Registry::getLang()->translateString('OC_K3_EXCEPTION_STATUS_CODE');
             throw new \Exception(sprintf($error, $statusCode));
         }
         if (!$result) {
-            $error = Registry::getLang()->translateString('FCOBJECTCODEK3_EXCEPTION_NO_RESPONSE');
+            $error = Registry::getLang()->translateString('OC_K3_EXCEPTION_NO_RESPONSE');
             throw new \Exception($error);
         }
         return $result;

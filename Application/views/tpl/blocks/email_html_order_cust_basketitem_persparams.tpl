@@ -1,6 +1,6 @@
-[{if $basketitem && $basketitem->getPersParams() && method_exists($basketitem, 'fcHasK3Configuration') && $basketitem->fcHasK3Configuration()}]
+[{if $basketitem && $basketitem->getPersParams() && method_exists($basketitem, 'ocHasK3Configuration') && $basketitem->ocHasK3Configuration()}]
     <br />
-    [{foreach from=$basketitem->fcGetK3Configuration() item=aParam key=sVar}]
+    [{foreach from=$basketitem->ocGetK3Configuration() item=aParam key=sVar}]
         [{if $sVar == 'variables'}]
             [{foreach from=$aParam item=variable}]
                 [{$variable.label}] : [{$variable.value}]<br/>

@@ -6,51 +6,51 @@
 $sMetadataVersion = '2.1';
 
 $aModule = [
-    'id' => 'fcobjectcodek3',
-    'title' => 'FATCHIP Modul K3 Objectcode',
+    'id' => 'ock3',
+    'title' => 'Objectcode K3',
     'description' => [
-        'de' => 'Integration von K3 Objectcode',
+        'de' => 'Integration von Objectcode K3',
     ],
-    'version' => '1.0.2',
-    'author' => 'FATCHIP GmbH',
-    'email' => 'support@fatchip.de',
-    'url' => '',
-    'thumbnail' => 'FC-Logo_24.png',
+    'version' => '1.0.3',
+    'author' => 'ObjectCode GmbH',
+    'email' => 'info@objectcode.de',
+    'url' => 'www.objectcode.de',
+    'thumbnail' => 'logo.webp',
     'extend' => [
-        \OxidEsales\Eshop\Application\Model\BasketItem::class => \FATCHIP\ObjectCodeK3\Extend\Application\Model\BasketItem::class,
-        \OxidEsales\Eshop\Application\Model\Order::class => \FATCHIP\ObjectCodeK3\Extend\Application\Model\Order::class,
+        \OxidEsales\Eshop\Application\Model\BasketItem::class => \ObjectCode\K3\Extend\Application\Model\BasketItem::class,
+        \OxidEsales\Eshop\Application\Model\Order::class => \ObjectCode\K3\Extend\Application\Model\Order::class,
     ],
     'controllers' => [
-        'fc_fcobjectcodek3_productexportcontroller' => \FATCHIP\ObjectCodeK3\Application\Controller\ProductExportController::class,
-        'fc_fcobjectcodek3_connectorcontroller' => \FATCHIP\ObjectCodeK3\Application\Controller\ConnectorController::class,
-        'fc_fcobjectcodek3_basketcontroller' => \FATCHIP\ObjectCodeK3\Application\Controller\BasketController::class,
+        'oc_ock3_productexportcontroller' => \ObjectCode\K3\Application\Controller\ProductExportController::class,
+        'oc_ock3_connectorcontroller' => \ObjectCode\K3\Application\Controller\ConnectorController::class,
+        'oc_ock3_basketcontroller' => \ObjectCode\K3\Application\Controller\BasketController::class,
     ],
     'templates' => [],
     'settings' => [
         [
-            'group' => 'fcobjectcodek3',
-            'name' => 'blFcObjectCodeK3Active',
+            'group' => 'ock3',
+            'name' => 'blOcK3Active',
             'type' => 'bool',
             'value' => true,
             'position' => 1,
         ],
         [
-            'group' => 'fcobjectcodek3',
-            'name' => 'blFcObjectCodeK3TestMode',
+            'group' => 'ock3',
+            'name' => 'blOcK3TestMode',
             'type' => 'bool',
-            'value' => true,
+            'value' => false,
             'position' => 10,
         ],
         [
-            'group' => 'fcobjectcodek3',
-            'name' => 'sFcObjectCodeK3AuthSecret',
+            'group' => 'ock3',
+            'name' => 'sOcK3AuthSecret',
             'type' => 'str',
             'value' => '',
             'position' => 20,
         ],
         [
-            'group' => 'fcobjectcodek3',
-            'name' => 'sFcObjectCodeK3AuthToken',
+            'group' => 'ock3',
+            'name' => 'sOcK3AuthToken',
             'type' => 'str',
             'value' => '',
             'position' => 30,
@@ -59,27 +59,27 @@ $aModule = [
     'blocks' => [
         [
             'template' => 'page/checkout/inc/basketcontents_list.tpl',
-            'block'    => 'checkout_basketcontents_basketitem_persparams',
-            'file'     => 'Application/views/tpl/blocks/checkout_basketcontents_basketitem_persparams.tpl'
+            'block' => 'checkout_basketcontents_basketitem_persparams',
+            'file' => 'Application/views/tpl/blocks/checkout_basketcontents_basketitem_persparams.tpl'
         ],
         [
             'template' => 'page/checkout/inc/basketcontents_table.tpl',
-            'block'    => 'checkout_basketcontents_basketitem_persparams',
-            'file'     => 'Application/views/tpl/blocks/checkout_basketcontents_basketitem_persparams.tpl'
+            'block' => 'checkout_basketcontents_basketitem_persparams',
+            'file' => 'Application/views/tpl/blocks/checkout_basketcontents_basketitem_persparams.tpl'
         ],
         [
             'template' => 'email/html/order_cust.tpl',
-            'block'    => 'email_html_order_cust_basketitem_persparams',
-            'file'     => 'Application/views/tpl/blocks/email_html_order_cust_basketitem_persparams.tpl'
+            'block' => 'email_html_order_cust_basketitem_persparams',
+            'file' => 'Application/views/tpl/blocks/email_html_order_cust_basketitem_persparams.tpl'
         ],
         [
             'template' => 'email/plain/order_cust.tpl',
-            'block'    => 'email_plain_order_cust_persparams',
-            'file'     => 'Application/views/tpl/blocks/email_plain_order_cust_persparams.tpl'
+            'block' => 'email_plain_order_cust_persparams',
+            'file' => 'Application/views/tpl/blocks/email_plain_order_cust_persparams.tpl'
         ],
     ],
     'events' => [
-        'onActivate' => '\FATCHIP\ObjectCodeK3\Core\Events::onActivate',
-        'onDeactivate' => '\FATCHIP\ObjectCodeK3\Core\Events::onDeactivate',
+        'onActivate' => '\ObjectCode\K3\Core\Events::onActivate',
+        'onDeactivate' => '\ObjectCode\K3\Core\Events::onDeactivate',
     ],
 ];

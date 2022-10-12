@@ -1,6 +1,6 @@
 <?php
 
-namespace FATCHIP\ObjectCodeK3\Application\Model;
+namespace ObjectCode\K3\Application\Model;
 
 use OxidEsales\Eshop\Core\DatabaseProvider;
 use OxidEsales\Eshop\Core\Registry;
@@ -50,7 +50,7 @@ class Configuration
      */
     public function getConfigurationUrl(): string
     {
-        if (Registry::getConfig()->getConfigParam('blFcObjectCodeK3TestMode')) {
+        if (Registry::getConfig()->getConfigParam('blOcK3TestMode')) {
             return $this->configurationUrlTest;
         }
         return $this->configurationUrl;
@@ -193,7 +193,7 @@ class Configuration
             return $oxid;
         }
 
-        $error = Registry::getLang()->translateString('FCOBJECTCODEK3_EXCEPTION_ARTICLE_NOT_FOUND');
+        $error = Registry::getLang()->translateString('OC_K3_EXCEPTION_ARTICLE_NOT_FOUND');
         throw new \Exception(sprintf($error, $articleNumber));
     }
 
