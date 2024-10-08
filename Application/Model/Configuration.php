@@ -25,9 +25,7 @@ class Configuration
      *
      * @var string
      */
-    //ToDo: Revert before publish!!!
-    //protected string $configurationUrlTest = 'https://k3.objectcode.de/test/app/?code=';
-    protected string $configurationUrlTest = 'http://localhost:9333/test/app/?code=';
+    protected string $configurationUrlTest = 'https://k3.objectcode.de/test/app/?code=';
 
     /**
      * @return object

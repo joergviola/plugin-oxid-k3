@@ -11,36 +11,28 @@ class Request
      *
      * @var string
      */
-    //ToDo: Revert before publish!!!
-    //protected string $configurationEndpoint = 'https://k3-api.objectcode.de/api/v1.0/cfg/{cfg}/shop';
-    protected string $configurationEndpoint = 'http://host.docker.internal:8081/api/v1.0/cfg/{cfg}/shop';
+    protected string $configurationEndpoint = 'https://k3-api.objectcode.de/api/v1.0/cfg/{cfg}/shop';
 
     /**
      * Order endpoint
      *
      * @var string
      */
-    //ToDo: Revert before publish!!!
-    //protected string $orderEndpoint = 'https://k3-api.objectcode.de/api/v1.0/app/{code}/cfg/{cfg}/save-only';
-    protected string $orderEndpoint = 'http://host.docker.internal:8081/api/v1.0/app/{code}/cfg/{cfg}/save-only';
+    protected string $orderEndpoint = 'https://k3-api.objectcode.de/api/v1.0/app/{code}/cfg/{cfg}/save-only';
 
     /**
      * Test configuration endpoint
      *
      * @var string
      */
-    //ToDo: Revert before publish!!!
-    //protected string $configurationEndpointTest = 'https://k3-test-api.objectcode.de/api/v1.0/cfg/{cfg}/shop';
-    protected string $configurationEndpointTest = 'http://host.docker.internal:8081/api/v1.0/cfg/{cfg}/shop';
+    protected string $configurationEndpointTest = 'https://k3-test-api.objectcode.de/api/v1.0/cfg/{cfg}/shop';
 
     /**
      * Test order endpoint
      *
      * @var string
      */
-    //ToDo: Revert before publish!!!
-    //protected string $orderEndpointTest = 'https://k3-test-api.objectcode.de/api/v1.0/app/{code}/cfg/{cfg}/save-only';
-    protected string $orderEndpointTest = 'http://host.docker.internal:8081/api/v1.0/app/{code}/cfg/{cfg}/save-only';
+    protected string $orderEndpointTest = 'https://k3-test-api.objectcode.de/api/v1.0/app/{code}/cfg/{cfg}/save-only';
 
     /**
      * Return token
