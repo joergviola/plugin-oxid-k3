@@ -144,7 +144,10 @@ class Connector
      */
     protected function getControllerUrl($controller): string
     {
-        $url = Registry::getConfig()->getShopHomeUrl() . 'cl=' . $controller;
+        //$url = Registry::getConfig()->getShopHomeUrl(). 'cl=' . $controller;
+        //ToDo: Revert before publish!!!
+        $url = 'http://host.docker.internal:4500/index.php?cl=' . $controller;
+
         return Registry::getUtilsUrl()->cleanUrl($url, ['force_sid', 'sid']);
     }
 

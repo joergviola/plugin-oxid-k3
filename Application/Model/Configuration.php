@@ -25,7 +25,9 @@ class Configuration
      *
      * @var string
      */
-    protected string $configurationUrlTest = 'https://k3.objectcode.de/test/app/?code=';
+    //ToDo: Revert before publish!!!
+    //protected string $configurationUrlTest = 'https://k3.objectcode.de/test/app/?code=';
+    protected string $configurationUrlTest = 'http://localhost:9333/test/app/?code=';
 
     /**
      * @return object
@@ -185,7 +187,7 @@ class Configuration
      * @return string
      * @throws \OxidEsales\Eshop\Core\Exception\DatabaseConnectionException
      */
-    protected function getOxidFromArticleNumber(string $articleNumber): string
+    public function getOxidFromArticleNumber(string $articleNumber): string
     {
         $query = "select oxid from oxarticles where oxartnum = :oxartnum limit 1";
         $oxid = DatabaseProvider::getDb()->getOne($query, [':oxartnum' => $articleNumber]);
